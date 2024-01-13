@@ -9,7 +9,7 @@ import otimo from "../imgs/otimo.webp";
 import xyami from "../imgs/xyami.jpeg";
 import shoprite from "../imgs/shoprite.jpeg";
 import unitel from "../imgs/unitel.png";
-import r360 from "../imgs/r360.png";
+import ONDJALA from "../imgs/r360.png";
 import ruim from "../imgs/ruim.webp";
 import icon from "../imgs/icon.png";
 import desconto from "../imgs/descontos.webp";

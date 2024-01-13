@@ -109,7 +109,7 @@ function Footer() {
                 </li>
                 <li>
                   <ScrollToTopLink className="footerlink" to="/pt/blog">
-                    Blog R360
+                    Blog ONDJALA
                   </ScrollToTopLink>
                 </li>
               </ul>

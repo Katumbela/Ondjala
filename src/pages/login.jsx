@@ -203,7 +203,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
           <div className="col-12  text-center pt-sm-0 pt-lg-0"></div>
           <div className="col-12  pt-sm-5 ">
             <div className="text-center">
-              <h4 className="f-reg">Que bom que você vai usar o R360</h4>
+              <h4 className="f-reg">Que bom que você vai usar o ONDJALA</h4>
               <p className="fw-light fw-400 fw-thin f-14">
                 Insira o login e senha para acessar sua área do consumidor.
               </p>
