@@ -1,0 +1,191 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+
+* {
+    font-family: 'Dosis', sans-serif;
+} */
+
+.livre {
+    height: 2.5em;
+    align-items: center;
+    align-content: center;
+    background-color: black;
+}
+
+.livre .icone {
+    color: #ffffff
+}
+
+.livre span {
+    color: white;
+}
+
+.main_header .logo {
+    height: 3em;
+    margin-right: 1rem;
+}
+
+.main_header  {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background: white;
+}
+
+.caixa_pesquisa input {
+    border: 1px solid #027e72;
+    padding: 10px 15px ;
+    outline: none;
+    height: 3em;
+    width: 100%;
+    border-bottom-right-radius: 40px;
+    border-top-right-radius: 40px;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+.caixa_pesquisa, .icone1  {
+   align-items: center;
+   align-content: center;
+   display: flex;
+}
+
+.icone1 .link{
+    font-size: 30px;
+    margin-left: 2rem;
+}
+
+
+.caixa_pesquisa  {
+    width: 55vw;
+  }
+
+.header {
+background: #f3f3f3;
+/*border-bottom: 2px solid #027e72;*/
+border-bottom: 2px solid #027e72;
+}
+
+.header .nav ul  {
+    display: inline-flex;
+    padding: 0;
+    margin: 0;
+}
+
+.header .nav ul li  {
+    list-style-type: none;
+    margin-right: 15px;
+    padding: 15px 0px;
+    text-decoration: none;
+ }
+ .header .nav ul li a {
+   padding: 10px 15px;
+    text-decoration: none;
+    color: #373753;
+ }
+
+ .header .nav ul li a:hover {
+    transition: all.2s ease-out;
+    padding: 10px 15px;
+     text-decoration: none;
+     background-color: #027e72;
+     color: #ffffff!important;
+     border-radius: 5px;
+  }
+ 
+.header .container  {
+  display: flex;
+  justify-content: space-between;
+}
+.loginout {
+    margin-top: .99rem;
+}
+.login-btn {
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: #027e72;
+    color: white!important;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.login-btn:hover .login-btn .icon {
+   transition: all .2s ease;
+   transform: translateX(50px);
+}
+
+
+@media (max-width: 325px) {
+    
+.header .nav ul li  {
+    list-style-type: none;
+    margin-right: 12px;
+    padding: 10px 0px;
+    text-decoration: none;
+ }
+ .header .nav ul li a {
+   padding: 8px 10px;
+    text-decoration: none;
+    color: #373753;
+ }
+}
+
+@media (max-width: 700px) {
+        
+
+
+    .caixa_pesquisa  {
+        flex: 4;
+    }
+
+    .nav {
+        margin: auto !important;
+    }
+}
+
+@media (max-width: 500px) {
+        
+  
+    .icone1 .cart  {
+        margin-right: .5rem;
+        margin-left: .3rem;
+    }
+
+
+    .main_header .logo {
+        margin-right: .05rem;
+    }
+        .icone1 .fav  {
+        position: fixed;
+        bottom: 50vh;
+        display: none;
+        right: 2rem;
+        z-index: 9;
+    }
+}
+
+.thumb {
+    position: absolute;
+    top: -.1rem;
+    right: -.8rem;
+    font-size: 14px;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    border: 2px solid #027e72;
+    border-radius: 90px;
+    height: 1.3rem;
+    font-weight: bold;
+    width: 1.3rem;
+    color: #027e72;
+}
+
+
+.link {
+    color: #027e72!important;
+}
+
+.link:hover {
+    color: #027e72 !important;
+}
+
+
+#carouselExampleSlidesOnly img {
+    max-height: 500px;
+}

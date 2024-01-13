@@ -1,0 +1,426 @@
+.carousel {
+    height: 70vh;
+}
+
+.carousel-control-prev, 
+.carousel-control-next {
+    background: #00000086;
+    height: 3em;
+    width: 3em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.b_code {
+    background: linear-gradient(90deg, #df8b03cc,#df8b03cc, transparent), url(../imgs/unitel1.jpg) center center; 
+    background-size: cover;
+    padding-top: 6rem;
+    padding-left: 3rem;
+}
+
+
+@media 
+(max-width: 389px) {
+     
+.b_code {
+    background: linear-gradient(0deg, #df8b03fe,#df8b03cc,#df8b03cc, transparent,transparent), url(../imgs/unitel1.jpg) center center; 
+    background-size: cover;
+}
+    
+.row .cont {
+    position: absolute;
+    padding-top: 0rem;
+    top: 2em;
+}
+    
+}
+
+.load {
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 7px solid #fff;
+    border-bottom: 5px solid transparent;
+    border-radius: 100px;
+    animation: .5s g ease-out infinite;
+}
+
+@keyframes g {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (min-width: 390px) and 
+(max-width: 450px) {
+      
+.b_code {
+    background: linear-gradient(0deg, #df8b03fe,#df8b03cc,#df8b03cc, transparent,transparent), url(../imgs/unitel1.jpg) center center; 
+    background-size: cover;
+}
+
+.row .cont {
+    position: absolute;
+    padding-top: 0rem;
+    top: 6em;
+}
+    
+    .gap-3, .gap-2 {
+        margin: 2px;
+    }
+
+.emp {
+    background: url(../imgs/img1.png);
+    background-position: center!important;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    height: 21em!important;
+    margin-top: 3rem!important;
+}
+
+.acad {
+    background: url(../imgs/img_b1.png);
+    background-position: center!important;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    height: 20em!important;
+    margin-top: 3rem!important;
+}
+
+.loja {
+    background: url(../imgs/img3.png);
+    background-position: center!important;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    height: 20em!important;
+    margin-top: 3rem!important;
+}
+
+
+.carousel .ban {
+    padding-top: 2rem;
+    padding-left: 1rem!important;
+    padding-right: 1rem;
+    margin-bottom: 2rem!important;
+}
+
+}
+
+@media (min-width: 451px) and (max-width: 760px) {
+    
+.b_code {
+    background: linear-gradient(0deg, #df8b03fe,#df8b03cc,#df8b03cc, transparent,transparent), url(../imgs/unitel1.jpg) center center; 
+    background-size: cover;
+}
+
+
+.emp {
+    background: url(../imgs/img1.png);
+    background-position: center!important;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    height: 14em!important;
+}
+
+.acad {
+    background: url(../imgs/img_b1.png);
+    background-position: center!important;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    height: 14em!important;
+}
+
+.loja {
+    background: url(../imgs/img3.png);
+    background-position: center!important;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    height: 14em!important;
+}
+
+.row .cont {
+    position: absolute;
+    padding-top: 0rem;
+    top: 8em;
+}
+
+.w-lg-75 {
+    width: 100%;
+}
+
+.carousel .ban {
+    padding-top: 2rem;
+    padding-left: 1rem!important;
+    padding-right: 2rem;
+}
+
+.img_banner {
+    width: 60%;
+    margin-top: 2rem !important;
+}
+
+.im {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.im-t {
+    width: 90%;
+    margin: 1px auto;
+}
+}
+
+.btn-outline-white {
+    border: 2px solid white;
+    color: white;
+    transition: .2s all;
+}
+.btn-outline-white:hover {
+    border: 2px solid white;
+    color: white;
+    opacity: .8;
+}
+
+.w-lg-75 {
+    width: 70%;
+}
+
+.img_banner {
+    width: 60%;
+    margin-top: 0 !important;
+}
+
+.carousel .ban {
+    padding-top: 2rem;
+    padding-left: 4.5rem;
+    padding-right: 3.5rem;
+}
+.carousel .ban .col-12 {
+    text-align: start;
+}
+
+@media (min-width: 1000px) {
+    
+ .w-lg-75 {
+    width: 55%;
+ }
+}
+@media (min-width: 800px) {
+    
+.carousel .ban .col-12 p {
+    font-size: 20px;
+}
+.carousel .ban .col-12 h3 {
+    font-size: 30px !important;
+}
+.img_banner {
+    width: 65%;
+    margin-top: 0 !important;
+}
+.im {
+    margin: auto 1px;
+    margin-bottom: 3rem;
+}
+}
+
+.emp {
+    background: url(../imgs/img1.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 22em;
+    background-position: start;
+}
+.acad {
+    background: url(../imgs/img_b1.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 22em;
+    background-position: start;
+}
+.loja {
+    background: url(../imgs/img3.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 22em;
+    background-position: start;
+}
+
+
+.fw-400 {
+    font-weight: 400!important;
+}
+
+.fw-600 {
+    font-weight: 600!important;
+}
+
+.fw-800 {
+    font-weight: 800!important;
+}
+
+
+.fw-light {
+    font-weight: lighter!important;
+}
+
+
+.overflow-x-auto {
+    overflow-x: auto !important;
+}
+
+.w-100 {
+    width: 100%!important;
+}
+
+.tabss ul  {
+    display: flex;
+    overflow-x: scroll;
+    gap: 10px;
+    flex-direction: row;
+
+}
+.tabss ul li{
+    list-style-type: none;
+
+}
+.tabss ul li button{
+    width: 100%;
+    gap: 5px;
+    display: flex;
+}
+
+
+
+
+
+
+.tabss  {
+    overflow-x: scroll;
+}
+
+.border-1 {
+    border-width: 1px;
+}
+
+.border-lightt {
+    border: .7px solid  #d2d2d2;
+}
+
+.logo-empresa {
+    height: 3em;
+    border-radius: 90px!important;
+    border: 2px solid #00b23b;
+    width: 3em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.icon-empresa {
+    height: 1.6em;
+    border-radius: 90px!important;
+    width: 1.6em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.card-loja {
+    width: 11rem;
+}
+
+.logo-blog {
+    height: 4.2em;
+   
+    width: 10em;
+}
+
+
+.desconto .tt {
+    display: flex;
+}
+
+
+  .desconto img {
+    width: 90%;
+  }
+
+  .lista-blog {
+
+  }
+
+  .lista-blog .card-blog {
+    width: 15rem;
+    border-radius: 10px!important;
+  }
+
+  .lista-blog .logo-blog {
+    width: 100%;
+    height: 9rem;
+    border-top-right-radius: 10px!important;
+    border-top-left-radius: 10px!important;
+  }
+
+  .card-blog a {
+    margin-top: .5rem!important;
+        text-decoration: none;
+  }
+
+  .bg-success {
+    background: #01a839!important;
+  }
+
+  .africa-ban {
+    height: 10.5em;
+    width: 10.5em;
+    opacity: .6;
+  }
+
+  .cards-emp a {
+    text-decoration: none;
+    margin-top: 2rem!important;
+    position: absolute;
+    bottom: 1rem;
+  }
+
+  .card-benefit {
+    width: 100%;
+    position: relative;
+    height: 100%;
+  }
+
+.titt {
+    position: relative;
+}
+  
+
+  @media 
+  (max-width: 992px) {
+       
+  .titt {
+      text-align: center;
+  }
+  .titt .africa-ban {
+    display: none;
+  }
+  }
+
+  @media 
+  (min-width: 992px) {
+       
+    .titt {
+        height: 100%;
+    }
+  .titt .africa-ban {
+    position: absolute;
+    bottom: 1rem;
+    opacity: .4;
+  }
+  .titt h5 {
+    font-size: 16px;
+  }
+  }
+
+
+  .banner .body-banner {
+    position: relative;
+    z-index: 1;
+  }
+  .banner  {
+    background: linear-gradient(90deg, #f4f4f4f8, #f4f4f4f8), url(../imgs/africa.png) center center!important;
+    background-size: cover;
+  }

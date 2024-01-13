@@ -1,0 +1,32 @@
+
+
+.autoo {
+    display: grid!important;
+    place-content: center!important;
+    align-content: center!important;
+    align-items: center!important;
+}
+
+
+@media (min-width: 766px) {
+
+.luanda {
+    background: linear-gradient(0deg, #000000ad , #000000ad), url('../imgs/luanda.jpeg') center center ;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.luanda div {
+    display: block!important;
+}
+    
+
+}
+
+.body {
+    background-color: #ffffff52;
+}
+
+.luanda div {
+    display: none;
+}
+

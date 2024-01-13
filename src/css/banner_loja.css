@@ -1,0 +1,35 @@
+.card_prod, .corpo-loja {
+    width: 13rem;
+}
+
+.spa1{
+    color: gray;
+    font-size: 10px;
+}
+
+.spa{
+    color: gray;
+    font-size: 12px;
+}
+
+.corpo-loja .b{
+    color: #202020;
+    font-weight: 450;
+    font-size: 18px;
+}
+
+.corpo-loja {
+    height: 5.5rem;
+    position: relative;
+}
+
+.corpo-loja .preco{
+    position: absolute;
+    bottom: 0;
+    font-size: 15px;
+    font-weight: 300 ;
+}
+
+.navlink {
+    text-decoration: none!important;
+}

@@ -1,0 +1,72 @@
+.card_prod-loja {
+    width: 12rem;
+    height: 15rem;
+    position: relative;
+}
+.spa1{
+    color: gray;
+    font-size: 10px;
+}
+
+.spa{
+    color: gray;
+    font-size: 12px;
+}
+
+.corpo-lojas .b{
+    color: #202020;
+    font-weight: 450;
+    font-size: 16px;
+}
+
+.corpo-lojas {
+    height: 5.5rem;
+    position: relative;
+}
+
+.corpo-lojas .preco{
+    position: absolute;
+    bottom: 0;
+    font-size: 15px;
+    font-weight: 300 ;
+}
+
+.navlink {
+    text-decoration: none;
+}
+
+.corpo-lojas .bi {
+    font-size: 11px;
+}
+
+.mascote img {
+    height: 6em;
+}
+
+@media (min-width: 371px) and (max-width: 500px) {
+  
+    .mascote img {
+        height: 5em!important;
+    }
+
+.corpo-lojas .b{
+    color: #202020;
+    font-weight: 450;
+    font-size: 16px!important;
+}
+    
+    
+}
+@media (min-width: 200px) and (max-width: 370px) {
+    
+    .mascote img {
+        height: 4em!important;
+    }
+
+.corpo-lojas .b{
+    color: #202020;
+    font-weight: 450;
+    font-size: 13px;
+}
+    
+}

@@ -1,0 +1,12 @@
+@media (max-width: 766px) {
+    .prods-set {
+        flex-wrap: wrap-reverse;
+        margin-top: -3rem;
+    }
+}
+
+.user-p {
+    border-radius: 90px!important;
+    border: 2px solid #ffd000!important;
+    margin: auto .2rem!important;
+}

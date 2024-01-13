@@ -1,0 +1,127 @@
+.autoo {
+  display: grid !important;
+  place-content: center !important;
+  align-content: center !important;
+  align-items: center !important;
+}
+
+.form {
+  background: #fff;
+  padding: 1rem;
+  border: 0.9px solid #d9d9d9;
+  width: 75vw;
+}
+
+@media (max-width: 765px) {
+  .quem-viu-md {
+    display: none !important;
+  }
+
+  .alterar {
+    display: none ;
+  }
+
+  .form {
+    width: 100% !important;
+  }
+
+  .quem-viu-sm {
+    display: block !important;
+  }
+
+  .rec-b {
+    width: 100%;
+    justify-content: center;
+    text-align: center !important;
+  }
+}
+
+@media (min-width: 766px) {
+
+    .quem-viu-sm {
+        display: none !important;
+      }
+
+      .quem-viu-md {
+        display: block !important;
+      }
+        
+
+  .luanda {
+    background: linear-gradient(0deg, #000000ad, #000000ad),
+      url("../imgs/eletronica.jpeg") center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .luanda div {
+    display: block !important;
+  }
+
+  .form,
+  .pesq-busca {
+    width: 30vw;
+  }
+  .form-c {
+    width: 50vw !important;
+  }
+}
+
+.body {
+  background-color: #cbe4f952;
+}
+
+.luanda div {
+  display: none;
+}
+
+.form .form-control {
+  background: #ffffff2c !important;
+}
+
+
+
+.google-btn {
+  width: 184px;
+  height: 42px;
+  cursor: pointer;
+  background-color: #4285f4;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.google-btn .google-icon-wrapper {
+  position: absolute;
+  margin-top: 1px;
+  margin-left: 1px;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.google-btn .google-icon {
+  
+  width: 28px;
+  height: 28px;
+}
+
+.google-btn .btn-text {
+  float: right;
+  margin: 11px 11px 0 0;
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  font-family: "Roboto";
+}
+
+.google-btn:hover {
+  box-shadow: 0 0 6px #4285f4;
+}
+
+.google-btn:active {
+  background: #1669F2;
+}

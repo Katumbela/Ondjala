@@ -1,0 +1,41 @@
+@media (min-width: 200px) and (max-width: 450px) {
+    .proj-tit {
+        font-size: 12px !important;
+    }
+      .proj-f {
+        font-size: 9px !important;
+    }
+    .bt-p {
+        height: 2em !important;
+        line-height: 0em !important;
+        margin-top: -2rem !important;
+    }
+}
+
+@media (min-width: 451px) and (max-width: 767px) {
+    .proj-tit {
+        font-size: 18px !important;
+    }
+      .proj-f {
+        font-size: 9px !important;
+    }
+    .bt-p {
+        height: 2.5em !important;
+        line-height: 0em !important;
+        margin-top: -1rem !important;
+    }
+}
+
+.proj-tit {
+    font-size: 18px;
+}
+  .proj-f {
+    font-size: 16px;
+}
+.bt-p {
+    margin-top: 1rem;
+}
+
+.text-start {
+    text-align: left!important;
+}

@@ -1,0 +1,6 @@
+.sinopec_imagem_cover_form{
+    background-image: url('../imgs/sinopec_images.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 55vh;
+}

@@ -1,0 +1,49 @@
+
+
+.unitelBanner {
+    background: url('../imgs/img88.jpg') center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 55vh;
+}
+
+.applybanner {
+    background: url('../imgs/bb.jpeg') center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 60vh;
+}
+
+@media (max-width: 766px) {
+
+    .form-unitel {
+        flex-wrap: wrap-reverse!important;
+    }
+
+    .unitelBanner {
+        background: url('../imgs/img88.jpg') center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 20vh;
+        margin-bottom: 2rem!important;
+        margin-top: -3rem!important;
+    }
+
+    .applybanner {
+        background: url('../imgs/bb.jpeg') center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 30vh;
+        margin-bottom: 2rem!important;
+        margin-top: -3rem!important;
+    }
+
+    .b-form{
+        padding: 0 1.5rem!important;
+    }
+    
+}
+
+.b-form{
+    padding: 2px 2rem 0 2px;
+}

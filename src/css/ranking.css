@@ -1,0 +1,124 @@
+.card-ranking {
+    border: 1px solid #d9d9d9;
+}
+
+.rate {
+    border: 1px solid #d9d9d9;
+    padding-left: .3rem;
+    padding-right: .3rem;
+}
+.boddy a:hover {
+text-decoration: underline !important;
+}
+
+.lista-descontos .card-loja:hover {
+    box-shadow: 1px 2px 5px #4dbb74!important;
+    transition: all .3s ease;
+    transform: translateY(-6px);
+}
+.lista-descontos .card-loja {
+    transition: all .3s ease;
+
+}
+
+
+@media (max-width: 600px) {
+
+  .partners img {
+    height: 3.5em;
+  }
+  
+    .s{
+        margin-top: 5.5rem;
+    }
+    
+    .l {
+        margin-top: 6.3rem;
+    }
+  
+  .lista-descontos .card-loja {
+    width: 9.5rem!important;
+  
+  }
+  }
+
+  /* Area do cadastro  */
+
+  .card-cadastro .logo {
+        height: 5em;
+  }
+  
+
+  .card-cadastro {
+    border: 1.2px solid #d9d9d9;
+    transition: all .15s ease;
+  }
+
+  .card-cadastro button {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+
+  .headc {
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+
+
+
+  .c-c-c:hover {
+    background-color: #00ff590b!important;
+    border-radius: 10px;
+    transition: all .1s ease-in;
+    border-color: #009d37fd;
+  }
+
+  .c-c-e:hover {
+    background-color: #005bf80a!important;
+    border-radius: 10px;
+    transition: all .1s ease-in;
+    border-color: #005bf8e1;
+  }
+
+  .border-1 {
+    border: 1px solid #d9d9d9;
+  }
+
+  .logo-reputacao {
+    height: 3em;
+    width: 3em;
+  }
+
+  .regular {
+    background: rgba(255, 166, 0, 0.149);
+  }
+  .pessimo {
+    background: rgba(255, 14, 14, 0.234);
+  }
+
+  .nao-recomendado {
+    background: rgba(136, 0, 240, 0.193);
+  }
+  .otimo {
+    background: rgba(0, 177, 21, 0.162);
+  }
+
+  .progress {
+    height: 1rem;
+    border-radius: 20px !important;
+    border: 1px solid #d9d9d9;
+  }
+
+  .progress .progress-bar {
+    height: .95rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 20px !important;
+  }
+
+
+
+  .partners img {
+    height: 4.5em;
+  }

@@ -1,0 +1,156 @@
+.nav {
+  background-color: #fff !important;
+  border-bottom: 2px solid #d9d9d9;
+}
+
+.nav .logo img {
+  height: 3em;
+}
+
+
+.logo-sm {
+  height: 2em;
+  margin-right: .59rem;
+}
+
+
+
+.nav .d-flex {
+  justify-content: space-between !important;
+}
+
+.item-menu {
+  margin: auto 0 !important;
+}
+
+.item-menu ul {
+  display: flex;
+  margin: auto 0 !important;
+  gap: 10px;
+}
+
+.item-menu li {
+  list-style-type: none;
+}
+
+.pesquisa {
+  background: #fff;
+  width: 100%;
+  margin-left: 1.9rem;
+  display: flex;
+  padding: 0.4rem 0.8rem;
+  align-items: center;
+  border: 1px solid #c4dcc4;
+  border-radius: 4px !important;
+  margin-top: auto;
+  margin-bottom: auto;
+  transition: all 0.3s ease;
+}
+
+.pesquisa input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.pesquisa i {
+  color: #498b49;
+}
+
+.pesquisa:focus-visible,
+.pesquisa:focus-within,
+.pesquisa:focus {
+  box-shadow: 1px 1px 6px #d9d9d9;
+  transition: all 0.3s ease-in;
+}
+
+@media (max-width: 630px) {
+  .logo-md {
+    display: none;
+  }
+
+  .c {
+    padding-top: 9rem!important;
+  }
+
+  .logo-sm {
+    display: block;
+  }
+  .menu-md {
+    display: none;
+  }
+  .pesquisa {
+    margin-left: 0rem;
+  }
+}
+
+@media (min-width: 631px) {
+  .logo-md {
+    display: block;
+  }
+
+  .menu-sm {
+    display: none !important;
+  }
+
+  .logo-sm {
+    display: none;
+  }
+}
+
+.menu-sm {
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.menu-sm a {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.menu-sm a {
+  display: inline-flex;
+  padding: 0.3rem 0.5rem;
+  text-decoration: none;
+}
+
+.menu-sm a:hover {
+    background: #00c64fd7;
+    color: white !important;
+    cursor: pointer;
+}
+.menu-sm  a {
+  text-decoration: none;
+  color: rgb(80, 80, 80);
+}
+
+.menu-sm .rec {
+  float: right;
+}
+
+
+@media (min-width: 325px) and (max-width: 690px) {
+  .nav {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9;
+    background: #fff;
+  }
+
+  .menu-sm {
+    position: fixed;
+    left: 0;
+    top: 4.1rem;
+    background: white;
+    z-index: 9;
+    right: 0;
+    width: 100%;
+    box-shadow: 2px 1px 9px #d9d9d9;
+  } 
+
+  .banner
+  {
+    margin-top: 6rem!important;
+  }
+}
