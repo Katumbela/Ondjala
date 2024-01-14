@@ -1,6 +1,6 @@
 .hero {
   height: 400px;
-  background: linear-gradient(-180deg, #f2454ef1 55%, transparent),
+  background: linear-gradient(-180deg, transparent , transparent),
     url(../../imgs/O.png);
   background-size: 100%;
   background-position: bottom;
