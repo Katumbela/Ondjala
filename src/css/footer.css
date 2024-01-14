@@ -72,11 +72,20 @@
 }
 
 .copyright,
-.copy {
+.copy , .footer-link {
   color: #858484;
   font-size: 14px;
 }
 
+
+.icones {
+
+  font-size: 24px;
+}
+
+.icones i {
+  cursor: pointer;
+}
 @media (max-width: 600px) {
   .copyright,
   .copy {

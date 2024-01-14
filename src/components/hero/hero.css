@@ -1,0 +1,43 @@
+.hero {
+  height: 400px;
+  background: linear-gradient(-180deg, #f2454ef1 55%, transparent),
+    url(../../imgs/O.png);
+  background-size: 100%;
+  background-position: bottom;
+  /* background-repeat: no-repeat; */
+}
+
+.hero .login {
+  background: white;
+  font-weight: bolder !important;
+}
+
+.hero .cadastro {
+  background: #ff0303;
+  border-color: #ff0303;
+  font-weight: bolder !important;
+}
+
+.datas {
+  margin-top: 12svh;
+}
+
+@media (max-width: 690px) {
+  .hero .title {
+    display: none;
+  }
+
+  .datas {
+    margin-top: 160px;
+  }
+
+  .hero {
+    height: 550px;
+    background: linear-gradient(-180deg, #ff00004f, #ff00004f),
+      url(../../imgs/bg-sm.png);
+    background-size: 100%;
+    background-position: bottom;
+    color: red !important;
+    /* background-repeat: no-repeat; */
+  }
+}

@@ -3,14 +3,8 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 import { UserContext } from "./userContext";
-
-import { NavLink } from "react-router-dom";
 import "../css/login.css";
-import logo from "../imgs/icone.png";
-import logo2 from "../imgs/logo-d.png";
-import axios from "axios";
-import Header from "../components/header";
-import Footer from "../components/footer";
+import logo from "../imgs/iconn.png";
 import ScrollToTopLink from "../components/scrollTopLink";
 import Swal from "sweetalert2";
 import { db } from "./firebase";
@@ -192,24 +186,27 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
 
   return (
     <>
-      <Header
+      {/* <Header
         style={{ marginBottom: "5rem" }}
         nomee={nomee}
         emaill={emaill}
         cart={cart}
-      />
+      /> */}
       <div className="c mx-auto pb-5 body">
         <div className="row ">
           <div className="col-12  text-center pt-sm-0 pt-lg-0"></div>
-          <div className="col-12  pt-sm-5 ">
+          <div className="col-12 ">
             <div className="text-center">
-              <h4 className="f-reg">Que bom que você vai usar o ONDJALA</h4>
-              <p className="fw-light fw-400 fw-thin f-14">
-                Insira o login e senha para acessar sua área do consumidor.
-              </p>
             </div>
             <div className="container pb-5 my-auto form">
+              <div className="text-start">
+                <a href="/pt/" title="Voltar"><i className="bi bi-arrow-left text-danger f-24"></i></a>
+              </div>
               <center>
+                
+                <img src={logo} style={{height:'3em'}} alt="" />
+                <br />
+                <br />
                 {user ? (
                   <div>
                     <p className="text-primary">
@@ -258,7 +255,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
 
                     {/* Botão de login */}
                     <button
-                      className="d-flex w-100 rounded-1 justify-content-center btn btn-primary"
+                      className="d-flex  rounded-1 justify-content-center btn btn-danger"
                       onClick={handleLoginWithEmailAndPassword}
                     >
                       <span>Entrar</span>
@@ -282,22 +279,9 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
               </center>
             </div>
             <br />
-            <div className="container my-auto form">
-              <center>
-                <>
-                  <div className="pb-2">
-                    <b className="text-dark">Não tem uma conta ?</b>
+            <div className="pb-2 text-center">
+                    <b className="text-dark">Não tem uma conta ? <a href="#" className="link">Crie uma conta</a></b>
                   </div>
-                  <ScrollToTopLink
-                    to={"/pt/cadastro"}
-                    className="d-flex  w-100 btn-google btn btn-outline-primary"
-                  >
-                    <span>Faça seu cadastro</span>
-                  </ScrollToTopLink>
-                </>
-              </center>
-            </div>
-            <br />
             {/* <div className="text-center">
               <span>
                 Não tem uma conta ? <a href="/pt/cadastro">Cadastre-se</a>{" "}

@@ -14,12 +14,13 @@
 }
 
 * {
-  font-family: arotec-light;
+  font-family: arotec-regular;
+  font-weight: bold;
 }
 
-.f-reg {
+.f-light {
 
-  font-family: arotec-regular;
+  font-family: arotec-light;
 }
 html,
 body {

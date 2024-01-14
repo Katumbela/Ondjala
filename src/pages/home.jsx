@@ -9,12 +9,15 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from './userContext';
 import firebase from 'firebase/compat/app';
 import { db } from './firebase';
+import Hero from '../components/hero/hero';
+import Body from '../components/body/body';
+import Footer from '../components/footer';
 
 
 const Home = ({ cart, nomee, emaill }) => {
 
   const { user, handleLogout } = useContext(UserContext);
-  document.title = `Pagina Inicial | Reputação 360`;
+  document.title = `Pagina Inicial | Ondjala Cathering Service`;
 
 
   useEffect(() => {
@@ -143,9 +146,12 @@ const Home = ({ cart, nomee, emaill }) => {
     <div className="w-100">
 
 {/*  */}
-      {/* <Navba/> */}
-      < Header style={{ marginBottom: '5rem' }} nomee={nomee} emaill={emaill} cart={cart} />
-  
+      <Hero/>
+      {/* < Header style={{ marginBottom: '5rem' }} nomee={nomee} emaill={emaill} cart={cart} /> */}
+      <Body />
+
+
+      <Footer />
     </div>
   );
 }

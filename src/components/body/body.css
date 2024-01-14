@@ -1,0 +1,22 @@
+
+.cc img {
+    height: 7em;
+}
+
+.link {
+    color: red;
+}
+.btn-danger {
+    background: red;
+    border-color: red;
+}
+
+.banners {
+    background: rgba(255, 0, 0, 0.045);
+}
+
+.bannn {
+    color: white;
+    background: linear-gradient(180deg, #000000b0, #000000b0), url(../../imgs/bg3.png) center center;
+    background-size: cover;
+}

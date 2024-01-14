@@ -35,14 +35,15 @@
 
 .pesquisa {
   background: #fff;
-  width: 100%;
-  margin-left: 1.9rem;
+  width: 90%;
   display: flex;
-  padding: 0.4rem 0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.5rem 0.8rem;
   align-items: center;
-  border: 1px solid #c4dcc4;
-  border-radius: 4px !important;
-  margin-top: auto;
+  /* border: 1px solid #c4dcc4; */
+  /* border-radius: 4px !important; */
+  margin-top: 1.5rem;
   margin-bottom: auto;
   transition: all 0.3s ease;
 }
@@ -51,10 +52,13 @@
   width: 100%;
   border: none;
   outline: none;
+  margin-left: .5rem ;
+  margin-right: .5rem;
 }
 
 .pesquisa i {
-  color: #498b49;
+  color: #585858!important;
+  font-size: 22px;
 }
 
 .pesquisa:focus-visible,
@@ -78,9 +82,6 @@
   }
   .menu-md {
     display: none;
-  }
-  .pesquisa {
-    margin-left: 0rem;
   }
 }
 
