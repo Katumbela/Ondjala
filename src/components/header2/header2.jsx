@@ -228,7 +228,7 @@ const Header2 = (props) => {
           <div className="d-flex my-auto flex-column">
             <b className="f-18">Menú do dia</b>
             <span className="text-secondary f-12">
-              <AbreviarTexto texto={endereco} largura={300} />
+              <AbreviarTexto texto={endereco} largura={250} />
             </span>
           </div>
           <div className="my-auto">
