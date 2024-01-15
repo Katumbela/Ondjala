@@ -12,13 +12,13 @@ import { db } from './firebase';
 import Hero from '../components/hero/hero';
 import Body from '../components/body/body';
 import Footer from '../components/footer';
+import axios from 'axios';
 
 
 const Home = ({ cart, nomee, emaill }) => {
 
   const { user, handleLogout } = useContext(UserContext);
   document.title = `Pagina Inicial | Ondjala Cathering Service`;
-
 
   useEffect(() => {
     // Adicione um listener para o estado da autenticação

@@ -20,3 +20,12 @@
     background: linear-gradient(180deg, #000000b0, #000000b0), url(../../imgs/bg3.png) center center;
     background-size: cover;
 }
+
+.results {
+    flex-direction: column!important;
+    z-index: 999999!important;
+    overflow-y: auto;
+    margin-top: 0!important;
+    border-radius: 10px!important;
+    box-shadow: 0!important;
+}

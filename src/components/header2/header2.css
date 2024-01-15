@@ -1,0 +1,91 @@
+
+.cadastro2 {
+    background: #d9d9d9;
+}
+
+.icone2 {
+    height: 2em;
+}
+
+
+.pesquisa2 {
+    background: #f2f2f2;
+    width: 100%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5rem 0.8rem;
+    align-items: center;
+    /* border: 1px solid #c4dcc4; */
+    /* border-radius: 4px !important; */
+    margin-top: .6rem;
+    margin-bottom: auto;
+    transition: all 0.3s ease;
+  }
+  
+  .pesquisa2 input {
+    width: 100%;
+    border: none;
+    background: #f2f2f2;
+    outline: none;
+    margin-left: .5rem ;
+    margin-right: .5rem;
+  }
+  
+  .pesquisa2 i {
+    color: #585858!important;
+    font-size: 20px;
+  }
+  
+  .pesquisa2:focus-visible,
+  .pesquisa2:focus-within,
+  .pesquisa2:focus {
+    box-shadow: 1px 1px 6px #d9d9d9;
+    transition: all 0.3s ease-in;
+  }
+  
+
+  .minis img{
+    height: 4em;
+  }
+
+  .minis {
+    overflow-x: auto!important;
+  }
+
+  .prato {
+    border: .5px solid #d9d9d9;
+    /* padding: 1rem; */
+  }
+
+  .prato img {
+    height: 6.3em;
+    width: 7em;
+  }
+
+  .prato .desc-prato {
+    padding: .6rem;
+  }
+
+
+  .prato .desc {
+    line-height: 10px!important;
+  }
+
+
+  .prato .img {
+    position: relative;
+  }
+
+  .prato .img button {
+    position: absolute;
+    bottom: .5rem;
+    left: 0;
+    right: 0;
+    width: 5rem;
+    font-size: 14px;
+    margin: auto;
+    padding: .2 .3rem!important;
+    border: 2px solid white;
+  }
+  
