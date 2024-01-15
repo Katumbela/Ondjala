@@ -144,7 +144,7 @@ export default function Hero() {
               <i className="bi bi-arrow-right-short "></i>
             </div>
             {showSuggestions && searchResults.length >= 1 ? (
-              <div className="results pesquisa input-search bg-white p-2 text-start f-14">
+              <div className="results pesquisa input-search bg-white p-2 text-start f-14 text-decoration-none text-danger">
                 {searchResults.map((endereco, index) => (
                   <ScrollToTopLink to={`/pt/menu/${encodeURIComponent(endereco.properties.formatted)}`} key={index} className="result-item">
                     <p>{endereco.properties.formatted}</p>
