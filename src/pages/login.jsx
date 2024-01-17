@@ -86,14 +86,16 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
           if (!querySnapshot.empty) {
             // Se houver um documento correspondente, obter os dados
             const userData = {
-              name: user.displayName ,
+              nome: user.displayName
+              ? user.displayName
+              : querySnapshot.docs[0].get("name"),
               email: user.email,
               pictureUrl: user.photoURL,
               uid: user.uid,
               tel: user.phoneNumber ? user.phoneNumber : querySnapshot.docs[0].get("phone"),
               // Adicione outros campos conforme necessário
               // bi: querySnapshot.docs[0].get("bi"),
-              nome: querySnapshot.docs[0].get("name"),
+              
               city: querySnapshot.docs[0].get("city"),
               // Adicione outros campos conforme necessário
             };
