@@ -121,13 +121,13 @@ const Cadastro = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
   return (
     <>
       
-      <div className="c  mx-auto body bg-white">
+      <div className=" mt-5 mx-auto body bg-white">
         <div className="container ">
           <div className="row ">
             <div className="col-12  text-center "></div>
             <div className="col-12  ">
               <div className="text-center">
-              <div className="text-center mb-3 headc">
+              <div className="text-center mb-3 ">
                          
                          <img src={logo2} style={{height:'6.5em'}} alt="" />
 
@@ -139,7 +139,6 @@ const Cadastro = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                 <p className="fw-light fw-400 fw-thin f-16">
                  Garanta suas refeições com uma conta Ondjala Catering
                 </p>
-                <br />
               </div>
               <div className="container my-auto form-c form">
                 <center>
