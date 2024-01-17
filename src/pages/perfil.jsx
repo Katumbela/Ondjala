@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import Header2 from "../components/header2/header2";
 
 import mini1 from "../imgs/begga.png";
-import user from "../imgs/user.png";
+import userr from "../imgs/user.png";
 import logo from "../imgs/iconn.png";
 import mini3 from "../imgs/cou.png";
 import mini4 from "../imgs/fries.png";
@@ -188,7 +188,8 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
       </div>
       <br />
       <center className="w-75 mx-auto">
-        {user?.photo != "" ? (
+        
+        {user?.photo != null ? (
           <img
             src={user?.photo}
             className="rounded-circle borded-1"
@@ -197,9 +198,9 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
           />
         ) : (
           <img
-            src={user}
+            src={userr}
             className="rounded-circle borded-1"
-            style={{ height: "8em", border: "1px solid #d9d9d9" }}
+            style={{ height: "8em", width: "8em", border: "1px solid #d9d9d9" }}
             alt=""
           />
         )}

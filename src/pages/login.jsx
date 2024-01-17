@@ -15,7 +15,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
   document.title = `Entrar para sua conta | Reputação 360`;
 
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const userDataFromLocalStorage = localStorage.getItem("users");
@@ -73,10 +73,9 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
     }
   }, []);
 
-
   const handleLoginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-  
+
     firebase
       .auth()
       .signInWithPopup(provider)
@@ -84,7 +83,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         // Verifica se o usuário já existe no Firestore
         const userRef = db.collection("cliente").doc(result.user.email);
         const userDoc = await userRef.get();
-  
+
         if (!userDoc.exists) {
           // Cria um novo documento no Firestore para o usuário
           await userRef.set({
@@ -96,10 +95,10 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
             uid: result.user.uid,
           });
         }
-  
+
         // Atualiza o estado local e localStorage
         setUser(result.user);
-  
+
         const userData = {
           nome: result.user.displayName,
           email: result.user.email,
@@ -108,7 +107,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
           uid: result.user.uid,
           tel: result.user.phoneNumber,
         };
-  
+
         localStorage.setItem("users", JSON.stringify(userData));
         setNomee(result.user.displayName);
         // handleLogin(result);
@@ -118,7 +117,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         alert(error);
       });
   };
-  
+
   const handleLogout = () => {
     firebase
       .auth()
@@ -134,7 +133,6 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         console.log(error);
       });
   };
-  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -147,24 +145,57 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
     setPassword(e.target.value);
   };
   const handleLoginWithEmailAndPassword = () => {
+    setLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
+      .then(async (result) => {
         // Login bem-sucedido, faça algo aqui
         setEmaill(result.user.email);
         setNomee(result.user.displayName);
-
-        const userData = {
-          name: result.user.displayName,
-          email: result.user.email,
-          // Adicione outros dados do usuário conforme necessário
-        };
-
-        localStorage.setItem("users", JSON.stringify(userData));
-        window.location.href = "/pt";
+  
+        // Consultar o Firestore para obter dados adicionais
+        try {
+          const querySnapshot = await db
+            .collection("cliente")
+            .where("email", "==", result.user.email)
+            .get();
+  
+          if (!querySnapshot.empty) {
+            const userData = {
+              nome: result.user.displayName
+                ? result.user.displayName
+                : querySnapshot.docs[0].get("name"),
+              email: result.user.email,
+              pictureUrl: result.user.photoURL,
+              photo: result.user.photoURL,
+              uid: result.user.uid,
+              tel: result.user.phoneNumber
+                ? result.user.phoneNumber
+                : querySnapshot.docs[0].get("phone"),
+              city: querySnapshot.docs[0].get("city"),
+            };
+  
+            setUser(userData);
+            // setTel(userData.tel || ""); // Definir o número de telefone
+            localStorage.setItem("users", JSON.stringify(userData));
+          } else {
+            console.warn(
+              "Documento não encontrado no Firestore para o e-mail do usuário."
+            );
+          }
+  
+          setLoading(false);
+          window.location.href = "/pt";
+        } catch (error) {
+          setLoading(false);
+          console.error("Erro ao buscar dados do Firestore:", error);
+        }
       })
       .catch((error) => {
+        // Tratar erros de autenticação
+        setLoading(false);
+  
         if (
           error.code === "auth/invalid-login-credentials" ||
           error.code === "auth/invalid-email"
@@ -186,7 +217,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                 Swal.fire({
                   icon: "error",
                   title: "Ops!",
-                  text: error.message,
+                  text: "Email ou senha incorreta, tente novamente!",
                 });
               }
             })
@@ -198,11 +229,12 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
           Swal.fire({
             icon: "error",
             title: "Erro de sistema!",
-            text: "Ocorreu um erro no sistema, por favor tente novamente mais tarde.",
+            text: error+"Ocorreu um erro no sistema, por favor tente novamente mais tarde.",
           });
         }
       });
   };
+  
 
   return (
     <>
@@ -216,15 +248,15 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         <div className="row ">
           <div className="col-12  text-center pt-sm-0 pt-lg-0"></div>
           <div className="col-12 ">
-            <div className="text-center">
-            </div>
+            <div className="text-center"></div>
             <div className="container pb-5 my-auto form">
               <div className="text-start">
-                <a href="/pt/" title="Voltar"><i className="bi bi-arrow-left text-danger f-24"></i></a>
+                <a href="/pt/" title="Voltar">
+                  <i className="bi bi-arrow-left text-danger f-24"></i>
+                </a>
               </div>
               <center>
-                
-                <img src={logo} style={{height:'7em'}} alt="" />
+                <img src={logo} style={{ height: "7em" }} alt="" />
                 <br />
                 <br />
                 {user ? (
@@ -232,8 +264,10 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                     <p className="text-danger">
                       Você está logado como <b></b> <br />
                       <span className="text-secondary">
-                         {user.nome ? user.nome.split(' ')[0] :  user.nome?.split(' ')[0]}
-                      {user.name}
+                        {user.nome
+                          ? user.nome.split(" ")[0]
+                          : user.nome?.split(" ")[0]}
+                        {user.name}
                       </span>
                     </p>
 
@@ -276,10 +310,17 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
 
                     {/* Botão de login */}
                     <button
+                      disabled={loading}
                       className="d-flex  rounded-1 justify-content-center btn btn-danger"
                       onClick={handleLoginWithEmailAndPassword}
-                    >
+                    >{
+                      loading ?
+
+                      <span>Entrando...</span>
+                      :
+
                       <span>Entrar</span>
+                    }
                     </button>
                     <br />
                     <br />
@@ -301,8 +342,13 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
             </div>
             <br />
             <div className="pb-2 text-center">
-                    <b className="text-dark">Não tem uma conta ? <a href="/pt/cadastro" className="link">Crie uma conta</a></b>
-                  </div>
+              <b className="text-dark">
+                Não tem uma conta ?{" "}
+                <a href="/pt/cadastro" className="link">
+                  Crie uma conta
+                </a>
+              </b>
+            </div>
             {/* <div className="text-center">
               <span>
                 Não tem uma conta ? <a href="/pt/cadastro">Cadastre-se</a>{" "}
