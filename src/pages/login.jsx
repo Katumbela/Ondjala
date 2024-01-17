@@ -301,7 +301,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                 <img src={logo} style={{ height: "7em" }} alt="" />
                 <br />
                 <br />
-                {user ? (
+                {user != null ? (
                   <div>
                     <p className="text-danger">
                       Você está logado como <b></b> <br />
