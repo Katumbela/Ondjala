@@ -30,18 +30,18 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
 
   const [user, setUser] = useState(null);
 
-  document.title = `Perfil ${user?.nome} | Ondjala`;
+  document.title = `Perfil ${user?.nome} | Ondjala Catering Service`;
 
   const [telefone, setTel] = useState(user?.tel);
   useEffect(() => {
-    const userDataFromLocalStorage = localStorage.getItem("users");
-
     // Verificar se há dados no armazenamento local
+    const userDataFromLocalStorage = localStorage.getItem("users");
+  
     if (userDataFromLocalStorage) {
       try {
         const userData = JSON.parse(userDataFromLocalStorage);
         setUser(userData);
-        setTel(userData.tel || ""); // Definir o número de telefone
+        setTel(userData.tel || "");
       } catch (error) {
         console.error("Erro ao analisar dados do armazenamento local:", error);
       }
@@ -54,44 +54,41 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
             const querySnapshot = await db
               .collection("cliente")
               .where("email", "==", user.email)
-              .get();
-
-            if (!querySnapshot.empty) {
-              const userData = {
-                nome: user.displayName
-                  ? user.displayName
-                  : querySnapshot.docs[0].get("name"),
-                email: user.email,
-                pictureUrl: user.photoURL,
-                photo: user.pictureUrl,
-                uid: user.uid,
-                tel: user.phoneNumber
-                  ? user.phoneNumber
-                  : querySnapshot.docs[0].get("phone"),
-                city: querySnapshot.docs[0].get("city"),
-              };
-
-              setUser(userData);
-              setTel(userData.tel || ""); // Definir o número de telefone
-              localStorage.setItem("users", JSON.stringify(userData));
-            } else {
-              console.warn(
-                "Documento não encontrado no Firestore para o e-mail do usuário."
-              );
-            }
+              .onSnapshot((snapshot) => {
+                if (!snapshot.empty) {
+                  const userData = {
+                    nome: user.displayName
+                      ? user.displayName
+                      : snapshot.docs[0].get("name"),
+                    email: user.email,
+                    pictureUrl: user.photoURL,
+                    photo: user.pictureUrl,
+                    uid: user.uid,
+                    tel: user.phoneNumber
+                      ? user.phoneNumber
+                      : snapshot.docs[0].get("phone"),
+                    city: snapshot.docs[0].get("city"),
+                  };
+  
+                  setUser(userData);
+                  setTel(userData.tel || "");
+                  localStorage.setItem("users", JSON.stringify(userData));
+                } else {
+                  console.warn(
+                    "Documento não encontrado no Firestore para o e-mail do usuário."
+                  );
+                }
+              });
           } catch (error) {
             console.error("Erro ao buscar dados do Firestore:", error);
           }
         }
-
-        // Definir o estado de carregamento como falso, independentemente do resultado
-        // setLoading(false);
       });
-
+  
       return () => unsubscribe();
     }
   }, []);
-
+  
   
   const handleLogout = () => {
     firebase
@@ -133,6 +130,12 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
         }
       })
       .then(() => {
+        // Atualizar o estado local com o novo número de telefone
+        setUser((prevUser) => ({
+          ...prevUser,
+          tel: telefone,
+        }));
+  
         setLoad(false);
         toast.success("Número de telefone atualizado com sucesso!");
       })
@@ -141,6 +144,8 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
         toast.error("Erro ao atualizar número de telefone: " + error.message);
       });
   };
+  
+  
   
   return (
     <>
@@ -252,7 +257,18 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
               onClick={handleUpdatePhone}
               disabled={load}
             >
-              Atualizar Número de Telefone
+                  {
+                load ?
+                <span>
+
+Atuaizando seu número...                </span>
+                :
+                <span>
+
+Atualizar Número de Telefone
+                    </span>
+            }
+              
             </button>
           </div>
         </div>

@@ -848,9 +848,23 @@ footer {
 }
 
 
+.tela-gd {
+  display: none !important;
+}
+
+.tela-peq {
+  display: block !important;
+}
 @media (min-width: 766px) {
   .w-md-75 {
     width: 70%;
+  }
+
+  .tela-gd {
+    display: block !important;
+  }
+  .tela-peq {
+    display: none !important;
   }
 
 }
@@ -1009,3 +1023,5 @@ footer {
 .o-auto {
   overflow-x: auto !important;
 }
+
+

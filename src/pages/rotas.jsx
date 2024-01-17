@@ -24,6 +24,7 @@ import Menu from "./menu";
 import Pesquisar from "./pesquisar";
 import Carrinho from "./carrinho";
 import Perfil from "./perfil";
+import ForgotPassword from "./recuperarSenha";
 // import CadastroConsumidor from "./cadastroConsumidor";
 // import ReclamarBuscar from "./reclamarBusca";
 // import PerfilEmpresa from "./perfilEmpresa/perfilEmpresa";
@@ -103,6 +104,19 @@ const RotasPT = (props) => {
               />
             }
             path="/pt/login"
+            exact
+          />
+          <Route
+            element={
+              <ForgotPassword
+                cart={cart}
+                emaill={emaill}
+                setEmaill={setEmaill}
+                nomee={nomee}
+                setNomee={setNomee}
+              />
+            }
+            path="/pt/forgot-password"
             exact
           />
           {/* <Route element={<SolicitarCadastro cart={cart}  emaill={emaill} setEmaill = {setEmaill} nomee={nomee} setNomee={setNomee}  />} path="/pt/solicitar-cadastro" exact /> */}

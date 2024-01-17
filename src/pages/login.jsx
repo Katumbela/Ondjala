@@ -271,7 +271,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
           Swal.fire({
             icon: "error",
             title: "Erro de sistema!",
-            text: error+"Ocorreu um erro no sistema, por favor tente novamente mais tarde.",
+            text: "Ocorreu um erro no sistema, por favor tente novamente mais tarde.",
           });
         }
       });
@@ -365,9 +365,11 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                     }
                     </button>
                     <br />
-                    <br />
-
-                    <div className="google-btn" onClick={handleLoginWithGoogle}>
+                    <center>
+                      <a className="link" href="/pt/forgot-password">Esqueceu a senha ?</a>
+                    </center>
+{/* login com google btn */}
+                    {/* <div className="google-btn" onClick={handleLoginWithGoogle}>
                       <div className="google-icon-wrapper">
                         <img
                           className="google-icon"
@@ -377,7 +379,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                       <p className="btn-text">
                         <b>Login com google</b>
                       </p>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </center>
