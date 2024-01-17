@@ -55,6 +55,11 @@ const Carrinho = (props) => {
     setEditando(true);
   };
 
+
+  const pagar = () => {
+  alert('Funcao em falta');
+  };
+
   const handleSalvar = () => {
     // Aqui você pode adicionar a lógica para salvar o novo endereço no estado ou no seu backend
     // Por exemplo, você pode chamar uma função de API ou atualizar o estado local
@@ -80,7 +85,7 @@ const Carrinho = (props) => {
         {cart.length !== 0 && (
           <>
             <center>
-              <h3 className="text-danger">Confira</h3>
+              <h2 className="text-danger">Confira</h2>
               <div className="linha mx-auto"></div>
             </center>
             <div className="bg-light rounded-2 p-4 my-3">
@@ -195,20 +200,7 @@ const Carrinho = (props) => {
 
           {cart.length !== 0 && (
             <>
-              <div className="row">
-                <div className="col-12  col-md-8">
-                  <h6 className="f-14">Compra de {qnt} pratos</h6>
-
-                  <h6>
-                    <b className="text-danger">Entrega:</b> 1450 Kz
-                  </h6>
-                  <h4>
-                    <b className="text-danger">Total:</b>{" "}
-                    {formatarQuantia(preco + 1450)}{" "}
-                  </h4>
-                </div>
-              </div>
-
+             
               <br />
 
               <div className="bg-light rounded-2 p-4 my-3">
@@ -246,7 +238,7 @@ const Carrinho = (props) => {
           <div className="px-4 py-1">
             <div className="d-flex my-2 justify-content-between">
               <h6 className="text-secondary">
-                TOTAL <i className="bi f-14 bi-exclamation-circle"></i>{" "}
+                TOTAL {" "}
               </h6>
               <h6>
                 {" "}
@@ -255,8 +247,7 @@ const Carrinho = (props) => {
             </div>
           </div>
           <br />
-          <br />
-          <div className="px-4 py-1">
+          <div className="px-4 pb-1">
             <div className="d-flex bg-light rounded-2 p-2 my-2 gap-2 justify-content-between">
               <i className="bi bi-chat-left-dots my-auto "></i>
               <textarea
@@ -272,7 +263,7 @@ const Carrinho = (props) => {
           <br />
 
           <div className="col-12 my-auto px-4 col-md-12 text-end">
-            <button className="btn w-sm-100 mt-3 mt-md-0 btn-danger">
+            <button  onClick={() => pagar()} className="btn w-sm-100 mt-3 mt-md-0 btn-danger">
               Proceder ao pagamento
             </button>
           </div>

@@ -212,7 +212,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                       Você está logado como <b></b> <br />
                       <span className="text-secondary">
                          {user.nome ? user.nome.split(' ')[0] :  user.nome?.split(' ')[0]}
-                     
+                      {user.name}
                       </span>
                     </p>
 

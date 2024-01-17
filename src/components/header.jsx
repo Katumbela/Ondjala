@@ -267,11 +267,7 @@ useEffect(() => {
                   <span className="btn d-flex gap-2">
                     {" "}
                     <i className="bi tex-success bi-person-circle"></i>{" "}
-                    {/* <AbreviarTexto
-                      className="text-success f-reg"
-                      texto={user.nome}
-                      largura={100}
-                    />{" "} */}
+                   
                   </span>
                 ) : (
                   <NavLink className={"btn btn-outline-success"} to="/pt/login">
@@ -306,12 +302,7 @@ useEffect(() => {
         {user ? (
           <span className="btn text-success f-reg d-flex gap-2">
             {" "}
-            {/* <i className="bi tex-success bi-person-circle"></i>{" "} */}
-            {/* <AbreviarTexto
-              className="text-success f-reg"
-              texto={user.nome}
-              largura={100}
-            />{" "} */}
+           
           </span>
         ) : (
           <ScrollToTopLink to={"/pt/login"}>Entrar</ScrollToTopLink>

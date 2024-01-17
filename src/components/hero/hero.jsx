@@ -152,7 +152,7 @@ export default function Hero() {
             <div className="d-flex gap-2 logged">
                 
                 <ScrollToTopLink
-                  to={"/pt/cadastro"}
+                  to={"/pt/perfil"}
                   className="btn btn-sm login btn-white px-3 py- rounded-pill"
                 >
                 <i className="bi bi-person-circle me-1"></i>  {user.nome}

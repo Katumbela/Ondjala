@@ -23,6 +23,7 @@ import Cadastro from "./cadastro";
 import Menu from "./menu";
 import Pesquisar from "./pesquisar";
 import Carrinho from "./carrinho";
+import Perfil from "./perfil";
 // import CadastroConsumidor from "./cadastroConsumidor";
 // import ReclamarBuscar from "./reclamarBusca";
 // import PerfilEmpresa from "./perfilEmpresa/perfilEmpresa";
@@ -109,6 +110,9 @@ const RotasPT = (props) => {
 
           <Route 
             element={<Menu add={adicionar} remove={remover} nomee={nomee} emaill={emaill} cart={cart} />} path="/pt/menu/:endereco"  exact />
+        
+        <Route 
+            element={<Perfil add={adicionar} remove={remover} nomee={nomee} emaill={emaill} cart={cart} />} path="/pt/perfil"  exact />
           {/* <Route element={<SubmitP  nomee={nomee} emaill={emaill} cart={cart} handleClick={handleClick} />} path="/pt/add-artigo" exact /> */}
           <Route element={<CriarConta />} path="/pt/criar_conta" exact />
           <Route
