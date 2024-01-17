@@ -93,18 +93,18 @@ const Carrinho = (props) => {
                 <h6 className="">
                   <h3 className="me- text-dark ">Detalhe de entrega </h3> <br />
                   <div className="d-flex gap-1">
-                    <i className="bi bi-geo"></i>
+                    <i className="bi my-auto bi-geo"></i>
                     {editando ? (
                       <>
                         <input
                           type="text"
-                          className="w-100"
+                          className="form-control w-100"
                           value={novoEndereco}
                           onChange={handleChange}
                         />
                         <i
                           title="salvar"
-                          className="bi bi-check2 mx-2 text-success"
+                          className="bi my-auto bi-check2 mx-2 text-success"
                           onClick={handleSalvar}
                           style={{ cursor: "pointer" }}
                         ></i>
@@ -129,10 +129,10 @@ const Carrinho = (props) => {
               </div>
             </div>
             <div className="d-flex px-4 justify-content-between">
-              <h6>Seu carrinho está pronto</h6>
+              <h6 className="f-14 my-auto">Seu carrinho está pronto</h6>
               <ScrollToTopLink
                 to={"/pt/menu/" + ende}
-                className=" my-auto text-decoration-none text-secondary"
+                className="f-14 my-auto text-decoration-none text-secondary"
               >
                 <i className="bi mx-1 bi-backspace"></i> Retornar
               </ScrollToTopLink>
@@ -171,10 +171,10 @@ const Carrinho = (props) => {
                   <img style={{ height: "4em" }} src={item.imagem} alt="" />
                 </div>
                 <div className="my-auto w-100 ms-3">
-                  <h3>{item.nome}</h3>
+                  <h5>{item.nome}</h5>
                   <div className="d-flex w-100 justify-content-between">
-                    <p className="mt-auto">
-                      Preço: {formatarQuantia(item.preco)}{" "}
+                    <p className="mt-auto f-14">
+                       {formatarQuantia(item.preco)}{" "}
                     </p>
                     <button
                       className="btn d-flex f-12 btn-outline-danger"

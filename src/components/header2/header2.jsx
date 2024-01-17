@@ -171,11 +171,11 @@ const Header2 = (props) => {
   }, []);
 
   useEffect(() => {
-    if (scrollY > 130 && showDiv) {
+    if (scrollY > 150 && showDiv) {
       // Se a distância de scroll for maior que 60 e a div estiver visível
       setShowDiv(false);
       setHideAnimation(false);
-    } else if (scrollY <= 130 && !showDiv) {
+    } else if (scrollY <= 150 && !showDiv) {
       // Se a distância de scroll for menor ou igual a 60 e a div estiver invisível
       setShowDiv(true);
       setHideAnimation(true); // Desativar animação de saída

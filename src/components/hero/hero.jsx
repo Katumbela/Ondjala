@@ -37,7 +37,7 @@ export default function Hero() {
 
             if (!querySnapshot.empty) {
               const userData = {
-                name: user.displayName
+                nome: user.displayName
                   ? user.displayName
                   : querySnapshot.docs[0].get("name"),
                 email: user.email,
@@ -68,6 +68,7 @@ export default function Hero() {
       return () => unsubscribe();
     }
   }, []);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -201,9 +202,14 @@ export default function Hero() {
                 onChange={handleInputChange}
                 onClick={handleInputClick}
               />
-              <ScrollToTopLink to={'/pt/menu/'+searchTerm}>
+             {
+              searchTerm ?
+              <ScrollToTopLink className={'ir'} to={'/pt/menu/'+searchTerm}>
               <i className="bi bi-arrow-right-short "></i>
               </ScrollToTopLink>
+              :
+              null
+             }
             </div>
             {showSuggestions && searchResults.length >= 1 ? (
               <div className="results pesquisa res-p text-start input-search bg-white py-2 px-3 f-14 ">
