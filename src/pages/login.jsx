@@ -73,9 +73,10 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
     }
   }, []);
 
+ 
   const handleLoginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-
+  
     firebase
       .auth()
       .signInWithPopup(provider)
@@ -83,11 +84,11 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         // Verifica se o usuário já existe no Firestore
         const userRef = db.collection("cliente").doc(result.user.email);
         const userDoc = await userRef.get();
-
+  
         if (!userDoc.exists) {
           // Cria um novo documento no Firestore para o usuário
           await userRef.set({
-            city: "Luanda, Angola",
+            city: "Luanda, angola",
             email: result.user.email,
             name: result.user.displayName,
             password: "12345678", // Nota: Não é seguro armazenar senhas assim, você deve usar o Firebase Authentication para autenticação.
@@ -95,28 +96,29 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
             uid: result.user.uid,
           });
         }
-
+  
         // Atualiza o estado local e localStorage
         setUser(result.user);
-
+  
         const userData = {
-          nome: result.user.displayName,
+          name: result.user.displayName,
           email: result.user.email,
           pictureUrl: result.user.pictureUrl,
           photo: result.user.photoURL,
           uid: result.user.uid,
           tel: result.user.phoneNumber,
         };
-
+  
         localStorage.setItem("users", JSON.stringify(userData));
         setNomee(result.user.displayName);
-        // handleLogin(result);
-        // window.location.href = "/pt";
+        handleLogin(result);
+        window.location.href = "/pt";
       })
       .catch((error) => {
         alert(error);
       });
   };
+  
 
   const handleLogout = () => {
     firebase
