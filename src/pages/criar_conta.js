@@ -89,7 +89,7 @@ const Login = ({setNomee, setEmaill}) => {
                         <center>
                             <b> Crie uma conta com Google</b>
                             <br />
-                            <br />   {user ? (
+                            <br />   {user != null ? (
                                 <div>
                                     <p className='text-primary'>Você já está cadastrado como {user.displayName}</p>
 

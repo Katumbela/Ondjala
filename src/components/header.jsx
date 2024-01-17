@@ -263,7 +263,7 @@ useEffect(() => {
           <div className="item-menu menu-md">
             <ul>
               <li>
-                {user ? (
+                {user != null ? (
                   <span className="btn d-flex gap-2">
                     {" "}
                     <i className="bi tex-success bi-person-circle"></i>{" "}
@@ -277,7 +277,7 @@ useEffect(() => {
                 )}
               </li>
 
-              {user ? (
+              {user != null ? (
                 <li>
                   <NavLink
                     onClick={handleLogout}
@@ -299,7 +299,7 @@ useEffect(() => {
         </div>
       </div>
       <div className="menu-sm d-flex justify-content-between overflow-x-auto">
-        {user ? (
+        {user != null ? (
           <span className="btn text-success f-reg d-flex gap-2">
             {" "}
            
