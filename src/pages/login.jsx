@@ -15,52 +15,64 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
   document.title = `Entrar para sua conta | Reputação 360`;
 
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-
-  // verificar login do usuario
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          // Consultar o Firestore para obter o documento do usuário com base no e-mail
-          const querySnapshot = await db.collection("cliente").where("email", "==", user.email).get();
-  
-          if (!querySnapshot.empty) {
-            // Se houver um documento correspondente, obter os dados
-            const userData = {
-              name: user.displayName ,
-              email: user.email,
-              pictureUrl: user.photoURL,
-              uid: user.uid,
-              tel: user.phoneNumber ? user.phoneNumber : querySnapshot.docs[0].get("phone"),
-              // Adicione outros campos conforme necessário
-              bi: querySnapshot.docs[0].get("bi"),
-              nome: querySnapshot.docs[0].get("name"),
-              city: querySnapshot.docs[0].get("city"),
-              // Adicione outros campos conforme necessário
-            };
-  
-            // Atualizar o estado do usuário com os dados
-            setUser(userData);
-  
-            // Salvar dados no localStorage
-            localStorage.setItem("users", JSON.stringify(userData));
-          } else {
-            console.warn("Documento não encontrado no Firestore para o e-mail do usuário.");
-          }
-        } catch (error) {
-          console.error("Erro ao buscar dados do Firestore:", error);
-        }
-      } else {
-        // Se o usuário não estiver logado, defina o estado do usuário como null
-        setUser(null);
+    const userDataFromLocalStorage = localStorage.getItem("users");
+
+    // Verificar se há dados no armazenamento local
+    if (userDataFromLocalStorage) {
+      try {
+        const userData = JSON.parse(userDataFromLocalStorage);
+        setUser(userData);
+      } catch (error) {
+        console.error("Erro ao analisar dados do armazenamento local:", error);
       }
-    });
-  
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
+    } else {
+      // Se não houver dados no armazenamento local, verificar o estado do usuário no Firebase
+      const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          try {
+            // Consultar o Firestore para obter o documento do usuário com base no e-mail
+            const querySnapshot = await db
+              .collection("cliente")
+              .where("email", "==", user.email)
+              .get();
+
+            if (!querySnapshot.empty) {
+              const userData = {
+                name: user.displayName
+                  ? user.displayName
+                  : querySnapshot.docs[0].get("name"),
+                email: user.email,
+                pictureUrl: user.photoURL,
+                uid: user.uid,
+                tel: user.phoneNumber
+                  ? user.phoneNumber
+                  : querySnapshot.docs[0].get("phone"),
+                city: querySnapshot.docs[0].get("city"),
+              };
+
+              setUser(userData);
+              localStorage.setItem("users", JSON.stringify(userData));
+            } else {
+              console.warn(
+                "Documento não encontrado no Firestore para o e-mail do usuário."
+              );
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do Firestore:", error);
+          }
+        }
+
+        // Definir o estado de carregamento como falso, independentemente do resultado
+        setLoading(false);
+      });
+
+      return () => unsubscribe();
+    }
   }, []);
-  
+
 
   const handleLoginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -69,13 +81,8 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        // login bem-sucedido, faça algo aqui
-        setUser(result.user);
-
-        setEmaill(result.user.email);
-
         const userData = {
-          name: result.user.displayName,
+          nome: result.user.displayName,
           email: result.user.email,
           pictureUrl: result.user.pictureUrl,
           photo: result.user.photoURL,
@@ -84,9 +91,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         };
 
         localStorage.setItem("users", JSON.stringify(userData));
-        setNomee(result.user.displayName);
-        handleLogin(result);
-        window.location.href = "/pt";
+        setUser(userData);
       })
       .catch((error) => {
         alert(error);
@@ -99,22 +104,16 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
       .signOut()
       .then(() => {
         setUser(null);
-
         setEmaill("");
         setNomee("");
-        const userData = {
-          name: "",
-          email: "",
-          pictureUrl: "",
-          tel: "",
-        };
-
-        localStorage.setItem("users", JSON.stringify(userData));
+        localStorage.removeItem("users"); // Remover dados do armazenamento local
+        // window.location.href = "/pt"; // Redirecionar para a página de login
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -192,7 +191,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         emaill={emaill}
         cart={cart}
       /> */}
-      <div className="c mx-auto pb-5 body">
+      <div className=" mx-auto pb-5 body">
         <div className="row ">
           <div className="col-12  text-center pt-sm-0 pt-lg-0"></div>
           <div className="col-12 ">
@@ -212,8 +211,8 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
                     <p className="text-danger">
                       Você está logado como <b></b> <br />
                       <span className="text-secondary">
-                         {user.name ? user.name?.split(' ')[0] :  user.nome?.split(' ')[0]}
-                      
+                         {user.nome ? user.nome.split(' ')[0] :  user.nome?.split(' ')[0]}
+                     
                       </span>
                     </p>
 

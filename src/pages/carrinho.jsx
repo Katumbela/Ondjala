@@ -3,6 +3,7 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 import { NavLink, useParams } from "react-router-dom";
 import Header2 from "../components/header2/header2";
+import ScrollToTopLink from "../components/scrollTopLink";
 
 const Carrinho = (props) => {
   const [preco, setPreco] = useState(0);
@@ -76,17 +77,76 @@ const Carrinho = (props) => {
         emaill={emaill}
       />
       <div className="container mt-4">
-        <h1 className="text-danger">Sua encomenda</h1>
-        <hr />
-
+        {cart.length !== 0 && (
+          <>
+            <center>
+              <h3 className="text-danger">Confira</h3>
+              <div className="linha mx-auto"></div>
+            </center>
+            <div className="bg-light rounded-2 p-4 my-3">
+              <div>
+                <h6 className="">
+                  <h3 className="me- text-dark ">Detalhe de entrega </h3> <br />
+                  <div className="d-flex gap-1">
+                    <i className="bi bi-geo"></i>
+                    {editando ? (
+                      <>
+                        <input
+                          type="text"
+                          className="w-100"
+                          value={novoEndereco}
+                          onChange={handleChange}
+                        />
+                        <i
+                          title="salvar"
+                          className="bi bi-check2 mx-2 text-success"
+                          onClick={handleSalvar}
+                          style={{ cursor: "pointer" }}
+                        ></i>
+                      </>
+                    ) : (
+                      <>
+                        {novoEndereco}
+                        <i
+                          title="editar"
+                          className="bi bi-pencil my-auto mx-2"
+                          onClick={handleEditar}
+                          style={{ cursor: "pointer" }}
+                        ></i>
+                      </>
+                    )}
+                  </div>
+                  <br />
+                  <span className="text-secondary f-12">
+                    Edite se necessário
+                  </span>
+                </h6>
+              </div>
+            </div>
+            <div className="d-flex px-4 justify-content-between">
+              <h6>Seu carrinho está pronto</h6>
+              <ScrollToTopLink
+                to={"/pt/menu/" + ende}
+                className=" my-auto text-decoration-none text-secondary"
+              >
+                <i className="bi mx-1 bi-backspace"></i> Retornar
+              </ScrollToTopLink>
+            </div>
+          </>
+        )}
         <center>
           {cart.length == 0 && (
             <div className="container">
+                <br />
+                <br />
+                <center>
+                    <i className="bi bi-cart3 f-24"></i>
+                </center>
               <span className="text-secondary">
                 Sua cesta está vazia, informe nos o endereço de entrega
               </span>{" "}
               <br />
-              <NavLink to={"/pt"}>
+              <NavLink to={"/pt/menu/"+ende}>
                 <button className="btn-outline-danger btn-sm mt-2 f-14 btn">
                   escolha o seu prato <i className="bi bi-cart"></i>
                 </button>
@@ -94,7 +154,8 @@ const Carrinho = (props) => {
             </div>
           )}
         </center>
-        <article>
+
+        <article className="px-4">
           {cart.map((item) => (
             <div className="" key={item.id}>
               <div
@@ -132,67 +193,98 @@ const Carrinho = (props) => {
             </div>
           ))}
 
-          <br />
-
           {cart.length !== 0 && (
-            <div className="row">
-              <div className="col-12  col-md-8">
-                <h6 className="f-14">Compra de {qnt} pratos</h6>
-                <div>
-                  <h6 className="d-flex flex-wrap gap-2">
-                    <span className="me- text-danger ">Endereço: </span>
-                    <div className="d-flex gap-1">
-                      {editando ? (
-                        <>
-                          <input
-                            type="text"
-                            className="w-100"
-                            value={novoEndereco}
-                            onChange={handleChange}
-                          />
-                          <i
-                            title="salvar"
-                            className="bi bi-check2 mx-2 text-success"
-                            onClick={handleSalvar}
-                            style={{ cursor: "pointer" }}
-                          ></i>
-                        </>
-                      ) : (
-                        <>
-                          {novoEndereco}
-                          <i
-                            title="editar"
-                            className="bi bi-pencil my-auto mx-2"
-                            onClick={handleEditar}
-                            style={{ cursor: "pointer" }}
-                          ></i>
-                        </>
-                      )}
-                    </div>
+            <>
+              <div className="row">
+                <div className="col-12  col-md-8">
+                  <h6 className="f-14">Compra de {qnt} pratos</h6>
+
+                  <h6>
+                    <b className="text-danger">Entrega:</b> 1450 Kz
+                  </h6>
+                  <h4>
+                    <b className="text-danger">Total:</b>{" "}
+                    {formatarQuantia(preco + 1450)}{" "}
+                  </h4>
+                </div>
+              </div>
+
+              <br />
+
+              <div className="bg-light rounded-2 p-4 my-3">
+                <div className="d-flex my-2 justify-content-between">
+                  <h6 className="text-secondary">Valor do carrinho:</h6>
+                  <h6>
+                    {" "}
+                    <b>{formatarQuantia(preco)}</b>
                   </h6>
                 </div>
-                <h6>
-                  <b className="text-danger">Entrega:</b> 1450 Kz
-                </h6>
-                <h4>
-                  <b className="text-danger">Total:</b>{" "}
-                  {formatarQuantia(preco + 1450)}{" "}
-                </h4>
+                <div className="d-flex my-2 justify-content-between">
+                  <h6 className="text-secondary">Taxa de entrega:</h6>
+                  <h6>
+                    {" "}
+                    <b>{formatarQuantia(145000)}</b>
+                  </h6>
+                </div>
+                <div className="d-flex my-2 justify-content-between">
+                  <h6 className="text-secondary">
+                    Imposto <i className="bi f-14 bi-exclamation-circle"></i>{" "}
+                  </h6>
+                  <h6>
+                    {" "}
+                    <b>{formatarQuantia("00000")}</b>
+                  </h6>
+                </div>
               </div>
-              <div className="col-12 my-auto col-md-12 text-end">
-                <button className="btn w-sm-100 mt-3 mt-md-0 btn-danger">Finalizar</button>
-              </div>
-            </div>
+            </>
           )}
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
         </article>
       </div>
+      {cart.length !== 0 && (
+        <>
+          <br />
+          <div className="px-4 py-1">
+            <div className="d-flex my-2 justify-content-between">
+              <h6 className="text-secondary">
+                TOTAL <i className="bi f-14 bi-exclamation-circle"></i>{" "}
+              </h6>
+              <h6>
+                {" "}
+                <b>{formatarQuantia(preco + 145000)}</b>
+              </h6>
+            </div>
+          </div>
+          <br />
+          <br />
+          <div className="px-4 py-1">
+            <div className="d-flex bg-light rounded-2 p-2 my-2 gap-2 justify-content-between">
+              <i className="bi bi-chat-left-dots my-auto "></i>
+              <textarea
+                name=""
+                style={{ border: "0" }}
+                id=""
+                className="w-100 bg-light form-control"
+                placeholder="Observações do pedido"
+                rows="2"
+              ></textarea>
+            </div>
+          </div>
+          <br />
+
+          <div className="col-12 my-auto px-4 col-md-12 text-end">
+            <button className="btn w-sm-100 mt-3 mt-md-0 btn-danger">
+              Proceder ao pagamento
+            </button>
+          </div>
+        </>
+      )}
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
 
       {/* <Footer /> */}
     </div>

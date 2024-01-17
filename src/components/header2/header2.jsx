@@ -15,55 +15,59 @@ const Header2 = (props) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // verificar login do usuario
-    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          // Consultar o Firestore para obter o documento do usuário com base no e-mail
-          const querySnapshot = await db
-            .collection("cliente")
-            .where("email", "==", user.email)
-            .get();
+    const userDataFromLocalStorage = localStorage.getItem("users");
 
-          if (!querySnapshot.empty) {
-            // Se houver um documento correspondente, obter os dados
-            const userData = {
-              name: user.displayName
-                ? user.displayName
-                : querySnapshot.docs[0].get("name"),
-              email: user.email,
-              pictureUrl: user.photoURL,
-              uid: user.uid,
-              tel: user.phoneNumber
-                ? user.phoneNumber
-                : querySnapshot.docs[0].get("phone"),
-              // Adicione outros campos conforme necessário
-              bi: querySnapshot.docs[0].get("bi"),
-              city: querySnapshot.docs[0].get("city"),
-              // Adicione outros campos conforme necessário
-            };
-
-            // Atualizar o estado do usuário com os dados
-            setUser(userData);
-
-            // Salvar dados no localStorage
-            localStorage.setItem("users", JSON.stringify(userData));
-          } else {
-            console.warn(
-              "Documento não encontrado no Firestore para o e-mail do usuário."
-            );
-          }
-        } catch (error) {
-          console.error("Erro ao buscar dados do Firestore:", error);
-        }
-      } else {
-        // Se o usuário não estiver logado, defina o estado do usuário como null
-        setUser(null);
+    // Verificar se há dados no armazenamento local
+    if (userDataFromLocalStorage) {
+      try {
+        const userData = JSON.parse(userDataFromLocalStorage);
+        setUser(userData);
+      } catch (error) {
+        console.error("Erro ao analisar dados do armazenamento local:", error);
       }
-    });
+    } else {
+      // Se não houver dados no armazenamento local, verificar o estado do usuário no Firebase
+      const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          try {
+            // Consultar o Firestore para obter o documento do usuário com base no e-mail
+            const querySnapshot = await db
+              .collection("cliente")
+              .where("email", "==", user.email)
+              .get();
 
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
+            if (!querySnapshot.empty) {
+              const userData = {
+                nome: user.displayName
+                  ? user.displayName
+                  : querySnapshot.docs[0].get("name"),
+                email: user.email,
+                pictureUrl: user.photoURL,
+                uid: user.uid,
+                tel: user.phoneNumber
+                  ? user.phoneNumber
+                  : querySnapshot.docs[0].get("phone"),
+                city: querySnapshot.docs[0].get("city"),
+              };
+
+              setUser(userData);
+              localStorage.setItem("users", JSON.stringify(userData));
+            } else {
+              console.warn(
+                "Documento não encontrado no Firestore para o e-mail do usuário."
+              );
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do Firestore:", error);
+          }
+        }
+
+        // Definir o estado de carregamento como falso, independentemente do resultado
+        // setLoading(false);
+      });
+
+      return () => unsubscribe();
+    }
   }, []);
 
   const handleLoginWithGoogle = () => {
@@ -79,7 +83,7 @@ const Header2 = (props) => {
         // setEmaill(result.user.email);
 
         const userData = {
-          name: result.user.displayName,
+          nome: result.user.displayName,
           email: result.user.email,
           pictureUrl: result.user.pictureUrl,
           photo: result.user.photoURL,
@@ -151,63 +155,80 @@ const Header2 = (props) => {
 
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleInputChange = (e) => {
-    const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
+  const [scrollY, setScrollY] = useState(0);
+  const [showDiv, setShowDiv] = useState(true);
+  const [hideAnimation, setHideAnimation] = useState(false);
 
-    // Filtrar empresas com base no termo de pesquisa
-    const results = dadosEmpresas.filter((empresa) => {
-      const lowerCasedTerm = searchTerm.toLowerCase();
-      return (
-        empresa.nome.toLowerCase().includes(lowerCasedTerm) ||
-        empresa.site.toLowerCase().includes(lowerCasedTerm) ||
-        empresa.nif.includes(searchTerm)
-      );
-    });
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setScrollY(currentScrollPos);
+    };
 
-    // Atualizar os resultados da pesquisa
-    setSearchResults(results);
+    window.addEventListener("scroll", handleScroll);
 
-    // Exibir as sugestões
-    setShowSuggestions(true);
-  };
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const handleBlur = () => {
-    // Aguarde um curto período antes de fechar as sugestões para permitir o clique nas sugestões
-    setTimeout(() => {
-      setShowSuggestions(false);
-    }, 200);
-  };
+  useEffect(() => {
+    if (scrollY > 130 && showDiv) {
+      // Se a distância de scroll for maior que 60 e a div estiver visível
+      setShowDiv(false);
+      setHideAnimation(false);
+    } else if (scrollY <= 130 && !showDiv) {
+      // Se a distância de scroll for menor ou igual a 60 e a div estiver invisível
+      setShowDiv(true);
+      setHideAnimation(true); // Desativar animação de saída
+    }
+  }, [scrollY, showDiv]);
 
-  const handleInputClick = () => {
-    // Exibir sugestões ao clicar no input
-    setShowSuggestions(true);
-  };
 
-  const handleLogout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setUser(null);
 
-        const userData = {
-          name: "",
-          email: "",
-          pictureUrl: "",
-          tel: "",
-        };
+  function formatarQuantia(valorEmCentavos) {
+    // Converte a string para um número em centavos
+    const valorNumerico = parseInt(valorEmCentavos);
 
-        localStorage.setItem("users", JSON.stringify(userData));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    // Verifica se o valor é um número válido
+    if (isNaN(valorNumerico)) {
+      return "Formato inválido";
+    }
 
-  const goBack = () => {
-    window.history.back();
-  };
+    // Converte o valor para reais (dividindo por 100)
+    const valorEmReais = valorNumerico / 100;
+
+    // Formata o número como uma quantia de dinheiro
+    const partes = valorEmReais.toFixed(2).toString().split(".");
+    const inteiro = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const decimal = partes[1];
+
+    return `${inteiro} ${decimal} Kz`;
+  }
+
+  const [isEndOfPage, setIsEndOfPage] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      if (scrollTop >= scrollHeight - clientHeight) {
+        setIsEndOfPage(true);
+      } else {
+        setIsEndOfPage(false);
+      }
+    };
+
+    // Adicione o evento de scroll ao componente
+    window.addEventListener("scroll", handleScroll);
+
+    // Remova o evento de scroll ao desmontar o componente
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   return (
     <>
       <div className="py-3 d-flex container justify-content-between text-center">
@@ -223,7 +244,7 @@ const Header2 = (props) => {
               >
                 <span className="my-auto">
                   <i className="bi bi-person-circle me-1"></i>{" "}
-                  {user?.name.split(" ")[0]} {user?.name.split(" ")[1]}
+                  {user.nome.split(" ")[0]} {user.nome.split(" ")[1]}
                 </span>
               </ScrollToTopLink>
             </div>
@@ -253,7 +274,7 @@ const Header2 = (props) => {
               <div className="d-flex my-auto flex-column">
                 <b className="f-18">Pratos escolhidos</b>
                 <span className="f-12">
-                  <ScrollToTopLink to={"/pt"}  className={'text-danger '} >
+                  <ScrollToTopLink to={"/pt"} className={"text-danger "}>
                     <i className="bi bi-arrow-left text-danger"></i> Voltar
                   </ScrollToTopLink>
                 </span>
@@ -269,12 +290,24 @@ const Header2 = (props) => {
           )}
           <div className="my-auto">
             <ScrollToTopLink
-              to={"/pt/meu-carrinho/"+endereco}
+              to={"/pt/meu-carrinho/" + endereco}
               className="btn text-decoration-none my-auto btn-sm login2 btn-danger px-3 f-20 rounded-pill"
             >
               <i className="bi bi-cart2 me-1"></i>
               <b>{qnt}</b>
             </ScrollToTopLink>
+          </div>
+        </div>
+      </div>
+      <div className={`div-bottom ${hideAnimation ? "hide-animation" : ""} ${isEndOfPage ? " final-p bg-white text-dark" : " bg-dark text-white"}`}>
+        {/* div a ser mostrada depois de scroll {scrollY} {hideAnimation ? "hide-animation" : "show"}
+         */}
+        <div className="d-flex justify-content-between">
+          <div className="d-flex gap-2 cartt">
+          <i className="bi bi-cart3"></i> {qnt} pratos no Carrinho
+          </div>
+          <div className="tott">
+            {formatarQuantia(preco)}
           </div>
         </div>
       </div>

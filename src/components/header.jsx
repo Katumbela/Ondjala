@@ -269,7 +269,7 @@ useEffect(() => {
                     <i className="bi tex-success bi-person-circle"></i>{" "}
                     {/* <AbreviarTexto
                       className="text-success f-reg"
-                      texto={user.name}
+                      texto={user.nome}
                       largura={100}
                     />{" "} */}
                   </span>
@@ -309,7 +309,7 @@ useEffect(() => {
             {/* <i className="bi tex-success bi-person-circle"></i>{" "} */}
             {/* <AbreviarTexto
               className="text-success f-reg"
-              texto={user.name}
+              texto={user.nome}
               largura={100}
             />{" "} */}
           </span>

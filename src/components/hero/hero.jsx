@@ -14,55 +14,59 @@ export default function Hero() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // verificar login do usuario
-    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          // Consultar o Firestore para obter o documento do usuário com base no e-mail
-          const querySnapshot = await db
-            .collection("cliente")
-            .where("email", "==", user.email)
-            .get();
+    const userDataFromLocalStorage = localStorage.getItem("users");
 
-          if (!querySnapshot.empty) {
-            // Se houver um documento correspondente, obter os dados
-            const userData = {
-              name: user.displayName
-                ? user.displayName
-                : querySnapshot.docs[0].get("name"),
-              email: user.email,
-              pictureUrl: user.photoURL,
-              uid: user.uid,
-              tel: user.phoneNumber
-                ? user.phoneNumber
-                : querySnapshot.docs[0].get("phone"),
-              // Adicione outros campos conforme necessário
-              bi: querySnapshot.docs[0].get("bi"),
-              city: querySnapshot.docs[0].get("city"),
-              // Adicione outros campos conforme necessário
-            };
-
-            // Atualizar o estado do usuário com os dados
-            setUser(userData);
-
-            // Salvar dados no localStorage
-            localStorage.setItem("users", JSON.stringify(userData));
-          } else {
-            console.warn(
-              "Documento não encontrado no Firestore para o e-mail do usuário."
-            );
-          }
-        } catch (error) {
-          console.error("Erro ao buscar dados do Firestore:", error);
-        }
-      } else {
-        // Se o usuário não estiver logado, defina o estado do usuário como null
-        setUser(null);
+    // Verificar se há dados no armazenamento local
+    if (userDataFromLocalStorage) {
+      try {
+        const userData = JSON.parse(userDataFromLocalStorage);
+        setUser(userData);
+      } catch (error) {
+        console.error("Erro ao analisar dados do armazenamento local:", error);
       }
-    });
+    } else {
+      // Se não houver dados no armazenamento local, verificar o estado do usuário no Firebase
+      const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          try {
+            // Consultar o Firestore para obter o documento do usuário com base no e-mail
+            const querySnapshot = await db
+              .collection("cliente")
+              .where("email", "==", user.email)
+              .get();
 
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
+            if (!querySnapshot.empty) {
+              const userData = {
+                name: user.displayName
+                  ? user.displayName
+                  : querySnapshot.docs[0].get("name"),
+                email: user.email,
+                pictureUrl: user.photoURL,
+                uid: user.uid,
+                tel: user.phoneNumber
+                  ? user.phoneNumber
+                  : querySnapshot.docs[0].get("phone"),
+                city: querySnapshot.docs[0].get("city"),
+              };
+
+              setUser(userData);
+              localStorage.setItem("users", JSON.stringify(userData));
+            } else {
+              console.warn(
+                "Documento não encontrado no Firestore para o e-mail do usuário."
+              );
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do Firestore:", error);
+          }
+        }
+
+        // Definir o estado de carregamento como falso, independentemente do resultado
+        // setLoading(false);
+      });
+
+      return () => unsubscribe();
+    }
   }, []);
 
   useEffect(() => {
@@ -151,7 +155,7 @@ export default function Hero() {
                   to={"/pt/cadastro"}
                   className="btn btn-sm login btn-white px-3 py- rounded-pill"
                 >
-                <i className="bi bi-person-circle me-1"></i>  {user.name}
+                <i className="bi bi-person-circle me-1"></i>  {user.nome}
                 </ScrollToTopLink>
               </div>
             </>

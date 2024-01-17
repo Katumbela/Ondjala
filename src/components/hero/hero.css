@@ -53,3 +53,34 @@
 .bg-danger, .btn-danger, .btn-danger:hover, .btn-danger:focus-within, .bg-danger:hover, .bg-danger:focus-within {
   background: red!important;
 }
+
+.linha {
+  background: red;
+  width: 3rem;
+  height: .2rem;
+}
+
+
+.div-bottom {
+  position: fixed;
+  transition: all .3s ease;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 999;
+  padding: 1rem;
+  /* border-top: 2px solid #d9d9d9; */
+  box-shadow: -9px 1px 9px #ffdede;
+  transition: transform 0.3s ease;
+}
+
+.hide-animation {
+  transform: translateY(100%);
+}
+
+.final-p {
+
+  border-top: 2px solid #000 !important;
+
+}
