@@ -1,6 +1,5 @@
 import "../App.css";
 // Bootstrap CSS
-import { Modal, Button } from "react-bootstrap";
 // Bootstrap Bundle JS
 import logo from "../imgs/iconn2.png";
 import sh from "../imgs/sh.png";
@@ -10,25 +9,26 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "./userContext";
 import firebase from "firebase/compat/app";
 import { db } from "./firebase";
-import notFound from "../imgs/not-found.png";
+
 import regular from "../imgs/regular.png";
 import "../css/ranking.css";
 import naorecomendado from "../imgs/naorecomendado.webp";
 import otimo from "../imgs/otimo.webp";
 import r360 from "../imgs/r360.png";
 import ruim from "../imgs/ruim.webp";
+// import AbreviarTexto from "../components/abreviarTexto";
 import dadosEmpresas from "../model/empresas";
 import ScrollToTopLink from "../components/scrollTopLink";
 import AbreviarTexto from "../components/abreviartexto/abreviarTexto";
 import pratos from "../model/pratos";
 import { useParams } from "react-router-dom";
 
-const Pesquisar = ({ cart, nomee, add, remove, emaill }) => {
+const Pesquisar = ({ add, remove, cart, nomee, emaill }) => {
   const { handleLogout } = useContext(UserContext);
-  const { endereco } = useParams();
-  document.title = `Busque o prato que deseja | Ondjala Catering Service`;
+  document.title = `Busque a empresa a reclamar | Reputação 360`;
 
   const [user, setUser] = useState(null);
+  const { endereco } = useParams();
 
   useEffect(() => {
     // verificar login do usuario
@@ -78,21 +78,17 @@ const Pesquisar = ({ cart, nomee, add, remove, emaill }) => {
       }
     });
 
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
-  }, []);
-
-  const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
     const hasVisited = localStorage.getItem("hasVisited");
     if (!hasVisited) {
       setShowModal(true);
       localStorage.setItem("hasVisited", true);
     }
 
-    fetchPlayers();
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
   }, []);
+
+  const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -100,36 +96,8 @@ const Pesquisar = ({ cart, nomee, add, remove, emaill }) => {
 
   const handleClose = () => setShowModal(false);
 
-  const [players, setPlayers] = useState([]);
-
-  // Função para buscar os jogadores ordenados por pontuação
-  const fetchPlayers = async () => {
-    try {
-      const snapshot = await db
-        .collection("players")
-        .where("pontos", ">", 15)
-        .orderBy("pontos", "desc")
-        .limit(3)
-        .get();
-      const playerData = snapshot.docs.map((doc) => doc.data());
-      setPlayers(playerData);
-    } catch (error) {
-      console.error("Erro ao buscar os jogadores:", error);
-    }
-  };
-
   const [backgroundImage, setBackgroundImage] = useState(0);
   const images = ["a1.jpg", "a7.jpg", "a3.jpg"];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBackgroundImage((prevImage) => (prevImage + 1) % images.length);
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   const backgroundStyle = {
     backgroundImage: `url(${process.env.PUBLIC_URL}/images/${images[backgroundImage]})`,
@@ -185,61 +153,107 @@ const Pesquisar = ({ cart, nomee, add, remove, emaill }) => {
     }, 200);
   };
 
+  let preco = 0;
+  let qnt = 0;
+  cart.map((item) => (preco += item.preco * item.qty));
+  cart.map((item) => (qnt += item.qty));
+
+  const [nav, setNav] = useState(0);
+
+  function formatarQuantia(valorEmCentavos) {
+    // Converte a string para um número em centavos
+    const valorNumerico = parseInt(valorEmCentavos);
+  
+    // Verifica se o valor é um número válido
+    if (isNaN(valorNumerico)) {
+      return "Formato inválido";
+    }
+  
+    // Converte o valor para reais (dividindo por 100)
+    const valorEmReais = valorNumerico / 100;
+  
+    // Formata o número como uma quantia de dinheiro
+    const partes = valorEmReais.toFixed(2).toString().split('.');
+    const inteiro = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const decimal = partes[1];
+  
+    return `${inteiro} ${decimal} Kz`;
+  }
+  
   return (
     <div className="w-100">
+      {/*  */}
+      {/* <Navba/> */}
+
       <div className="">
         <br />
         <center className="container text-start">
-          <div className="justify-content-between d-flex mb-2">
-            <a href={"/pt/menu/" + endereco} title="Voltar">
-              <i className="bi bi-arrow-left text-danger f-24"></i>
-            </a>
-            {user != null ? (
-              <>
-                <div className="d-flex gap-2">
-                  <ScrollToTopLink
-                    to={"/pt/perfil"}
-                    className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
-                  >
-                    <span className="my-auto">
-                      <i className="bi bi-person-circle me-1"></i>{" "}
-                      {user?.name.split(" ")[0]} {user?.name.split(" ")[1]}
-                    </span>
-                  </ScrollToTopLink>
-                </div>
-              </>
-            ) : (
-              <div className="d-flex gap-2">
-                <ScrollToTopLink
-                  to={"/pt/login"}
-                  className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
-                >
-                  Login
-                </ScrollToTopLink>
-                <ScrollToTopLink
-                  to={"/pt/cadastro"}
-                  className="btn btn-sm cadastro2  px-3 rounded-pill"
-                >
-                  Cadastro
-                </ScrollToTopLink>
-              </div>
-            )}
-          </div>
-          <h2 className="fw-bolder text-danger"> Busque o seu prato</h2>
-          <div className="">
-            <div className="input-search2 mt-1 rounded-pill d-flex pesquisa3">
-              <i className="bi bi-search"></i>
-              <input
-                type="text"
-                name=""
-                placeholder="Pesquise o seu prato"
-                id=""
-                value={searchTerm}
-                onClick={handleInputClick}
-                onChange={handleInputChange}
-              />
+          <div className="d-flex justify-content-between">
+            <div>
+              <ScrollToTopLink to={"/pt/menu/" + endereco}>
+                <i className="bi bi-arrow-left f-20 text-danger"></i>
+              </ScrollToTopLink>
             </div>
 
+            <div className="d-flex gap-2">
+              <div className="my-auto">
+                <ScrollToTopLink to={'/pt/meu-carrinho/'+endereco} className="btn text-decoration-none my-auto btn-sm login2 btn-danger px-3 f- rounded-pill">
+                  <i className="bi bi-cart2 me-1"></i>
+                  <b>{qnt}</b>
+                </ScrollToTopLink>
+              </div>
+              {user != null ? (
+                <>
+                  <div className="d-flex gap-2">
+                    <ScrollToTopLink
+                      to={"/pt/perfil"}
+                      className="btn btn-sm cadastro2  px-3 f-reg rounded-pill"
+                    >
+                      <span className="my-auto">
+                        <i className="bi bi-person-circle me-1"></i>{" "}
+                        {user?.name.split(" ")[0]} {user?.name.split(" ")[1]}
+                      </span>
+                    </ScrollToTopLink>
+                  </div>
+                </>
+              ) : (
+                <div className="d-flex gap-2">
+                  <ScrollToTopLink
+                    to={"/pt/login"}
+                    className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
+                  >
+                    Login
+                  </ScrollToTopLink>
+                  <ScrollToTopLink
+                    to={"/pt/cadastro"}
+                    className="btn btn-sm cadastro2  px-3 rounded-pill"
+                  >
+                    Cadastro
+                  </ScrollToTopLink>
+                </div>
+              )}
+            </div>
+          </div>
+          <br />
+          <div className="">
+            <h2 className="fw-bolder text-danger">Busque seu prato</h2>
+          </div>
+
+          <div className="input-search rounded-pill d-flex pesquisa3">
+            <i className="bi bi-search"></i>
+            <input
+              type="text"
+              name=""
+              placeholder="Endereço de entrega"
+              id=""
+              value={searchTerm}
+              onClick={handleInputClick}
+              onBlur={handleBlur}
+              onChange={handleInputChange}
+            />
+            <i className="bi bi-arrow-right-short "></i>
+          </div>
+          <div className="">
             <div className="">
               {searchResults.length > 0 && searchTerm !== "" ? (
                 searchResults.map((prato) => (
@@ -254,43 +268,48 @@ const Pesquisar = ({ cart, nomee, add, remove, emaill }) => {
                       <p className="text-secondary f-12 desc">
                         <AbreviarTexto texto={prato.descricao} largura={190} />
                       </p>
-                      <b className="preco mt-">{prato.preco} Kz</b>
+                      <b className="preco mt-">{formatarQuantia(prato.preco)} Kz</b>
                     </div>
                     <div className="img">
                       <img src={prato.imagem} className="my-auto" alt="" />
-                      <button onClick={add(prato)} className="btn btn-danger rounded-pill">
+                      <button
+                        onClick={() => add(prato)}
+                        className="btn btn-danger rounded-pill"
+                      >
                         Add <i className="bi bi-plus"></i>
                       </button>
                     </div>
                   </div>
                 ))
-              ) : showSuggestions && searchTerm !== "" ? (
+              ) : searchTerm !== "" ? (
                 <>
-                  <p className="text-center py-3 mt-3 w-100 mx-auto f-14">
+                  <p className="text-center py-3 w-100 mx-auto f-14">
                     <img src={logo} style={{ height: "8em" }} alt="" />
-                    <p className="text-secondary mt-3">
-                      Nenhum resultado encontrado, parece que ainda não temos{" "}
+                    <p>
+                      Não encontramos{" "}
                       <b className="text-danger">{searchTerm}</b> no nosso menu
-                      de hoje.{" "}
+                      de hoje, tente buscar por outro prato ou veja o menú
+                      completo.{" "}
                     </p>
                   </p>
                 </>
               ) : null}
-
-              <br />
-              <br />
-              <br />
-              {searchTerm == "" && (
-                <center>
-                  <img src={sh} style={{ height: "6em" }} alt="" />
-                  <br />
-                  <br />
-                  <span className="text-secondary f-14">
-                    Busque o seu prato no menu de hoje
-                  </span>
-                </center>
-              )}
             </div>
+          </div>
+          <br />
+          <br />
+          <br />
+
+          <div className="container">
+            {searchTerm === "" && (
+              <center>
+                <img src={sh} style={{ height: "7em" }} alt="" /> <br />
+                <span className="text-secondary w-175">
+                  Encontre o prato que deseja comer hoje que a Ondjala Catering
+                  leva pra sí na hora
+                </span>
+              </center>
+            )}
           </div>
         </center>
         <br />

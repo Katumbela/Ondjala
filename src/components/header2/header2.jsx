@@ -205,27 +205,29 @@ const Header2 = (props) => {
       });
   };
 
+  const goBack = () => {
+    window.history.back();
+  };
   return (
     <>
       <div className="py-3 d-flex container justify-content-between text-center">
-       <ScrollToTopLink to={'/pt'}
-       >
-         <img src={icone} className="icone2 my-auto" alt="" />
-
-       </ScrollToTopLink>
+        <ScrollToTopLink to={"/pt"}>
+          <img src={icone} className="icone2 my-auto" alt="" />
+        </ScrollToTopLink>
         {user != null ? (
           <>
-          <div className="d-flex gap-2">
-            <ScrollToTopLink
-              to={"/pt/perfil"}
-              className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
-            >
-           <span className="my-auto">
-           <i className="bi bi-person-circle me-1"></i>  {user?.name.split(' ')[0]}  {user?.name.split(' ')[1]}
-           </span>
-            </ScrollToTopLink>
-          
-          </div></>
+            <div className="d-flex gap-2">
+              <ScrollToTopLink
+                to={"/pt/perfil"}
+                className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
+              >
+                <span className="my-auto">
+                  <i className="bi bi-person-circle me-1"></i>{" "}
+                  {user?.name.split(" ")[0]} {user?.name.split(" ")[1]}
+                </span>
+              </ScrollToTopLink>
+            </div>
+          </>
         ) : (
           <div className="d-flex gap-2">
             <ScrollToTopLink
@@ -246,17 +248,33 @@ const Header2 = (props) => {
 
       <div className="head-menu container">
         <div className="d-flex justify-content-between">
-          <div className="d-flex my-auto flex-column">
-            <b className="f-18">Menú do dia</b>
-            <span className="text-secondary f-12">
-              <AbreviarTexto texto={endereco} largura={250} />
-            </span>
-          </div>
+          {endereco === "Luanda, Angola" ? (
+            <>
+              <div className="d-flex my-auto flex-column">
+                <b className="f-18">Pratos escolhidos</b>
+                <span className="f-12">
+                  <ScrollToTopLink to={"/pt"}  className={'text-danger '} >
+                    <i className="bi bi-arrow-left text-danger"></i> Voltar
+                  </ScrollToTopLink>
+                </span>
+              </div>
+            </>
+          ) : (
+            <div className="d-flex my-auto flex-column">
+              <b className="f-18">Menú do dia</b>
+              <span className="text-secondary f-12">
+                <AbreviarTexto texto={endereco} largura={250} />
+              </span>
+            </div>
+          )}
           <div className="my-auto">
-            <button className="btn my-auto btn-sm login2 btn-danger px-3 f-20 rounded-pill">
+            <ScrollToTopLink
+              to={"/pt/meu-carrinho/"+endereco}
+              className="btn text-decoration-none my-auto btn-sm login2 btn-danger px-3 f-20 rounded-pill"
+            >
               <i className="bi bi-cart2 me-1"></i>
               <b>{qnt}</b>
-            </button>
+            </ScrollToTopLink>
           </div>
         </div>
       </div>

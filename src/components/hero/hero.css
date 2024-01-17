@@ -27,6 +27,10 @@
     display: none;
   }
 
+  .w-sm-100 {
+    width: 100%;
+  }
+
   .datas {
     margin-top: 160px;
   }
@@ -44,4 +48,8 @@
 
 .logged .btn {
   border: 2px solid red!important;
+}
+
+.bg-danger, .btn-danger, .btn-danger:hover, .btn-danger:focus-within, .bg-danger:hover, .bg-danger:focus-within {
+  background: red!important;
 }

@@ -197,10 +197,12 @@ export default function Hero() {
                 onChange={handleInputChange}
                 onClick={handleInputClick}
               />
+              <ScrollToTopLink to={'/pt/menu/'+searchTerm}>
               <i className="bi bi-arrow-right-short "></i>
+              </ScrollToTopLink>
             </div>
             {showSuggestions && searchResults.length >= 1 ? (
-              <div className="results pesquisa text-start input-search bg-white py-2 px-3 f-14 ">
+              <div className="results pesquisa res-p text-start input-search bg-white py-2 px-3 f-14 ">
                 {searchResults.map((endereco, index) => (
                   <ScrollToTopLink
                     to={`/pt/menu/${encodeURIComponent(

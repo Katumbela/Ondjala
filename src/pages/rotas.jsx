@@ -22,6 +22,7 @@ import Faqs from "./faqs";
 import Cadastro from "./cadastro";
 import Menu from "./menu";
 import Pesquisar from "./pesquisar";
+import Carrinho from "./carrinho";
 // import CadastroConsumidor from "./cadastroConsumidor";
 // import ReclamarBuscar from "./reclamarBusca";
 // import PerfilEmpresa from "./perfilEmpresa/perfilEmpresa";
@@ -78,6 +79,12 @@ const RotasPT = (props) => {
             path="/pt/buscar-prato/:endereco"
             exact
           />
+
+          <Route
+             element={<Carrinho add={adicionar} remove={remover}  nomee={nomee} emaill={emaill} cart={cart} />}
+             path="/pt/meu-carrinho/:ende"
+             exact
+           />
 
           <Route
             element={<Faqs nomee={nomee} emaill={emaill} cart={cart} />}

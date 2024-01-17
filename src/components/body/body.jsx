@@ -9,7 +9,8 @@ import "./body.css";
 export default function Body() {
   return (
     <>
-      <div className=" mt-5 ">
+    
+      <div className=" first-b mt-5 ">
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-4 my-4 px-3 px-md-0">

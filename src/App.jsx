@@ -51,7 +51,7 @@ function App() {
         cart.map((x)=> x.id === item.id ? {...existe, qty: existe.qty - 1} : x)
        
        )
-       toast.success('Seu produto foi removido com sucesso!')
+       toast.success('Seu prato foi removido com sucesso!')
     }
   }
 

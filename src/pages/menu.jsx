@@ -133,8 +133,33 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
       });
   };
 
+
+  function formatarQuantia(valorEmCentavos) {
+    // Converte a string para um número em centavos
+    const valorNumerico = parseInt(valorEmCentavos);
+  
+    // Verifica se o valor é um número válido
+    if (isNaN(valorNumerico)) {
+      return "Formato inválido";
+    }
+  
+    // Converte o valor para reais (dividindo por 100)
+    const valorEmReais = valorNumerico / 100;
+  
+    // Formata o número como uma quantia de dinheiro
+    const partes = valorEmReais.toFixed(2).toString().split('.');
+    const inteiro = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const decimal = partes[1];
+  
+    return `${inteiro} ${decimal} Kz`;
+  }
+
+  
+
   return (
     <>
+
+<ToastContainer />
       <Header2
         endereco={endereco}
         add={add}
@@ -147,7 +172,8 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
           
         <div className="input-search2 rounded-pill d-flex pesquisa2">
           <i className="bi bi-search"></i>
-          <input disabled
+          <span className="text- mx-3" style={{color: '#A0A0A0'}}>Pesquise seu prato</span>
+          {/* <input disabled
             type="text"
             name=""
             placeholder="Pesquise o seu prato"
@@ -155,7 +181,7 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
             value={searchTerm}
             onChange={handleInputChange}
             onClick={handleInputClick}
-          />
+          /> */}
         </div>
         </ScrollToTopLink>
       </div>
@@ -177,7 +203,6 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
       <div className="container">
         <br />
         <br />
-        <ToastContainer />
         <h1>Pratos do dia</h1>
       </div>
 
@@ -192,11 +217,11 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
                 <AbreviarTexto texto={prato.descricao} largura={190} />
                 
               </p>
-              <b className="preco mt-">{prato.preco} Kz</b>
+              <b className="preco mt-">{formatarQuantia(prato.preco)} </b>
             </div>
             <div className="img">
                 <img src={prato.imagem} className="my-auto" alt="" />
-                <button className="btn btn-danger rounded-pill">
+                <button onClick={() => add(prato)} className="btn btn-danger rounded-pill">
                     Add <i className="bi bi-plus"></i>
                 </button>
             </div>
