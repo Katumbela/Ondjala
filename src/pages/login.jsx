@@ -17,89 +17,121 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   const userDataFromLocalStorage = localStorage.getItem("users");
+
+  //   // Verificar se há dados no armazenamento local
+  //   if (userDataFromLocalStorage) {
+  //     try {
+  //       const userData = JSON.parse(userDataFromLocalStorage);
+  //       setUser(userData);
+  //     } catch (error) {
+  //       console.error("Erro ao analisar dados do armazenamento local:", error);
+  //     }
+  //   } else {
+  //     // Se não houver dados no armazenamento local, verificar o estado do usuário no Firebase
+  //     const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+  //       if (user) {
+  //         try {
+  //           // Consultar o Firestore para obter o documento do usuário com base no e-mail
+  //           const querySnapshot = await db
+  //             .collection("cliente")
+  //             .where("email", "==", user.email)
+  //             .get();
+
+  //           if (!querySnapshot.empty) {
+  //             const userData = {
+  //               name: user.displayName
+  //                 ? user.displayName
+  //                 : querySnapshot.docs[0].get("name"),
+  //               email: user.email,
+  //               pictureUrl: user.photoURL,
+  //               uid: user.uid,
+  //               tel: user.phoneNumber
+  //                 ? user.phoneNumber
+  //                 : querySnapshot.docs[0].get("phone"),
+  //               city: querySnapshot.docs[0].get("city"),
+  //             };
+
+  //             setUser(userData);
+  //             localStorage.setItem("users", JSON.stringify(userData));
+  //           } else {
+  //             console.warn(
+  //               "Documento não encontrado no Firestore para o e-mail do usuário."
+  //             );
+  //           }
+  //         } catch (error) {
+  //           console.error("Erro ao buscar dados do Firestore:", error);
+  //         }
+  //       }
+
+  //       // Definir o estado de carregamento como falso, independentemente do resultado
+  //       setLoading(false);
+  //     });
+
+  //     return () => unsubscribe();
+  //   }
+  // }, []);
+
+
+
+  // verificar login do usuario
   useEffect(() => {
-    const userDataFromLocalStorage = localStorage.getItem("users");
-
-    // Verificar se há dados no armazenamento local
-    if (userDataFromLocalStorage) {
-      try {
-        const userData = JSON.parse(userDataFromLocalStorage);
-        setUser(userData);
-      } catch (error) {
-        console.error("Erro ao analisar dados do armazenamento local:", error);
-      }
-    } else {
-      // Se não houver dados no armazenamento local, verificar o estado do usuário no Firebase
-      const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
-          try {
-            // Consultar o Firestore para obter o documento do usuário com base no e-mail
-            const querySnapshot = await db
-              .collection("cliente")
-              .where("email", "==", user.email)
-              .get();
-
-            if (!querySnapshot.empty) {
-              const userData = {
-                name: user.displayName
-                  ? user.displayName
-                  : querySnapshot.docs[0].get("name"),
-                email: user.email,
-                pictureUrl: user.photoURL,
-                uid: user.uid,
-                tel: user.phoneNumber
-                  ? user.phoneNumber
-                  : querySnapshot.docs[0].get("phone"),
-                city: querySnapshot.docs[0].get("city"),
-              };
-
-              setUser(userData);
-              localStorage.setItem("users", JSON.stringify(userData));
-            } else {
-              console.warn(
-                "Documento não encontrado no Firestore para o e-mail do usuário."
-              );
-            }
-          } catch (error) {
-            console.error("Erro ao buscar dados do Firestore:", error);
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          // Consultar o Firestore para obter o documento do usuário com base no e-mail
+          const querySnapshot = await db.collection("cliente").where("email", "==", user.email).get();
+  
+          if (!querySnapshot.empty) {
+            // Se houver um documento correspondente, obter os dados
+            const userData = {
+              name: user.displayName ,
+              email: user.email,
+              pictureUrl: user.photoURL,
+              uid: user.uid,
+              tel: user.phoneNumber ? user.phoneNumber : querySnapshot.docs[0].get("phone"),
+              // Adicione outros campos conforme necessário
+              // bi: querySnapshot.docs[0].get("bi"),
+              nome: querySnapshot.docs[0].get("name"),
+              city: querySnapshot.docs[0].get("city"),
+              // Adicione outros campos conforme necessário
+            };
+  
+            // Atualizar o estado do usuário com os dados
+            setUser(userData);
+  
+            // Salvar dados no localStorage
+            localStorage.setItem("users", JSON.stringify(userData));
+          } else {
+            console.warn("Documento não encontrado no Firestore para o e-mail do usuário.");
           }
+        } catch (error) {
+          console.error("Erro ao buscar dados do Firestore:", error);
         }
-
-        // Definir o estado de carregamento como falso, independentemente do resultado
-        setLoading(false);
-      });
-
-      return () => unsubscribe();
-    }
+      } else {
+        // Se o usuário não estiver logado, defina o estado do usuário como null
+        setUser(null);
+      }
+    });
+  
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
   }, []);
-
+  
  
   const handleLoginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-  
+
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(async (result) => {
-        // Verifica se o usuário já existe no Firestore
-        const userRef = db.collection("cliente").doc(result.user.email);
-        const userDoc = await userRef.get();
-  
-        if (!userDoc.exists) {
-          // Cria um novo documento no Firestore para o usuário
-          await userRef.set({
-            city: "Luanda, angola",
-            email: result.user.email,
-            name: result.user.displayName,
-            password: "12345678", // Nota: Não é seguro armazenar senhas assim, você deve usar o Firebase Authentication para autenticação.
-            phone: "+244 000 000 000",
-            uid: result.user.uid,
-          });
-        }
-  
-        // Atualiza o estado local e localStorage
+      .then((result) => {
+        // login bem-sucedido, faça algo aqui
         setUser(result.user);
-  
+
+        setEmaill(result.user.email);
+
         const userData = {
           name: result.user.displayName,
           email: result.user.email,
@@ -108,7 +140,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
           uid: result.user.uid,
           tel: result.user.phoneNumber,
         };
-  
+
         localStorage.setItem("users", JSON.stringify(userData));
         setNomee(result.user.displayName);
         handleLogin(result);
@@ -118,7 +150,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
         alert(error);
       });
   };
-  
+
 
   const handleLogout = () => {
     firebase
