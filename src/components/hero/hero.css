@@ -32,12 +32,16 @@
   }
 
   .hero {
-    height: 550px;
-    background: linear-gradient(-180deg, #ff00004f, #ff00004f),
-      url(../../imgs/bg-sm.png);
-    background-size: 100%;
-    background-position: bottom;
+    height: 620px;
+    background: url(../../imgs/banner-mobile.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     color: red !important;
     /* background-repeat: no-repeat; */
   }
+}
+
+.logged .btn {
+  border: 2px solid red!important;
 }

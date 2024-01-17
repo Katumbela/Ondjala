@@ -21,6 +21,7 @@ import dadosEmpresas from "../model/empresas";
 import firebase from "firebase/compat/app";
 import pratos from "../model/pratos";
 import AbreviarTexto from "../components/abreviartexto/abreviarTexto";
+import ScrollToTopLink from "../components/scrollTopLink";
 
 const Menu = ({ emaill, nomee, cart, add, remove }) => {
   document.title = "Menú do dia | Ondjala";
@@ -142,9 +143,11 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
         emaill={emaill}
       />
       <div className="container">
+        <ScrollToTopLink to={'/pt/buscar-prato/'+endereco} className={'text-decoration-none'}>
+          
         <div className="input-search2 rounded-pill d-flex pesquisa2">
           <i className="bi bi-search"></i>
-          <input
+          <input disabled
             type="text"
             name=""
             placeholder="Pesquise o seu prato"
@@ -154,6 +157,7 @@ const Menu = ({ emaill, nomee, cart, add, remove }) => {
             onClick={handleInputClick}
           />
         </div>
+        </ScrollToTopLink>
       </div>
 
       <br />

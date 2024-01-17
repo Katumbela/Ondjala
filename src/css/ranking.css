@@ -122,3 +122,43 @@ text-decoration: underline !important;
   .partners img {
     height: 4.5em;
   }
+
+
+
+
+.pesquisa3 {
+  background: #f2f2f2;
+  width: 100%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.5rem 0.8rem;
+  align-items: center;
+  /* border: 1px solid #c4dcc4; */
+  /* border-radius: 4px !important; */
+  margin-top: .1rem;
+  margin-bottom: auto;
+  transition: all 0.3s ease;
+}
+
+.pesquisa3 input {
+  width: 100%;
+  border: none;
+  background: #f2f2f2;
+  outline: none;
+  margin-left: .5rem ;
+  margin-right: .5rem;
+}
+
+.pesquisa3 i {
+  color: #585858!important;
+  font-size: 20px;
+}
+
+
+.pesquisa3:focus-visible,
+.pesquisa3:focus-within,
+.pesquisa3:focus {
+  box-shadow: 1px 1px 6px #d9d9d9;
+  transition: all 0.3s ease-in;
+}

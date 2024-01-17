@@ -1,236 +1,299 @@
-import "../App.css";
-// Bootstrap CSS
-import { Modal, Button } from "react-bootstrap";
-// Bootstrap Bundle JS
-import logo from "../imgs/icone.png";
-import Header from "../components/header";
-import { useContext, useEffect, useRef, useState } from "react";
-import { UserContext } from "./userContext";
+import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase/compat/app";
-import { db } from "./firebase";
+import "firebase/compat/auth";
+import { UserContext } from "./userContext";
 import { NavLink } from "react-router-dom";
-
-import userSignup from "../imgs/user-signup.png";
-import company from "../imgs/company.png";
+import "../css/login.css";
+import logo from "../imgs/icone.png";
+import logo2 from "../imgs/iconn2.png";
+import axios from "axios";
+import Header from "../components/header";
 import Footer from "../components/footer";
+import ScrollToTopLink from "../components/scrollTopLink";
+import { db } from "./firebase";
+import Swal from "sweetalert2";
 
+const Cadastro = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
+  const { handleLogin, push } = useContext(UserContext);
 
-const Cadastro = ({ cart, nomee, emaill }) => {
-  const { user, handleLogout } = useContext(UserContext);
-  document.title = `Cadastre uma conta | Reputação 360`;
-
-  useEffect(() => {
-    // Adicione um listener para o estado da autenticação
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        // Se não houver usuário autenticado, redirecione para a página de login
-
-        const userData = {
-          name: "",
-          email: "",
-          pictureUrl: "",
-          tel: "",
-          uid: "",
-        };
-
-        localStorage.setItem("users", JSON.stringify(userData));
-      }
-    });
-
-    // Retorne uma função de limpeza para remover o listener quando o componente for desmontado
-    return unsubscribe;
-  }, []);
-
-  const [showModal, setShowModal] = useState(false);
+  document.title = `Cadastro de consumidor | Reputação 360`;
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem("hasVisited");
-    if (!hasVisited) {
-      setShowModal(true);
-      localStorage.setItem("hasVisited", true);
-    }
-
-    fetchPlayers();
-  }, []);
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleClose = () => setShowModal(false);
-
-  const [players, setPlayers] = useState([]);
-
-  // Função para buscar os jogadores ordenados por pontuação
-  const fetchPlayers = async () => {
-    try {
-      const snapshot = await db
-        .collection("players")
-        .where("pontos", ">", 15)
-        .orderBy("pontos", "desc")
-        .limit(3)
-        .get();
-      const playerData = snapshot.docs.map((doc) => doc.data());
-      setPlayers(playerData);
-    } catch (error) {
-      console.error("Erro ao buscar os jogadores:", error);
-    }
-  };
-
-  const [use, setUser] = useState([]);
-
-  useEffect(() => {
-    // Obtém o valor de 'users' do local storage quando o componente for montado
-    const userString = localStorage.getItem("users");
-    if (userString) {
-      const user = JSON.parse(userString);
+    firebase.auth().onAuthStateChanged((user) => {
       setUser(user);
-    } else {
-      const userData = {
-        name: "",
-        email: "",
-        pictureUrl: "",
-        tel: "",
-      };
-      setUser(userData);
+    });
+  }, []);
+
+  
+  
+  const handleRegister = async (userData) => {
+    try {
+      // Check if the email is already registered
+      const userCredential = await firebase.auth().createUserWithEmailAndPassword(
+        userData.email,
+        userData.password
+      );
+
+      // Send user data to Firestore if the registration is successful
+      await db.collection("cliente").add({
+        uid: userCredential.user.uid,
+        ...userData,
+      });
+
+      console.log("User registered successfully!");
+
+      // Show success alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Uhaa , Cadastrado!',
+        text: 'Seu cadastro foi efectuado com sucesso, e você foi logado automáticamente.',
+      });
+
+
+      localStorage.setItem("users", JSON.stringify(userData));
+
+      handleLogin(userData);
+
+      window.location.href = "/pt";
+
+      document.getElementsByTagName('name').value = ''; // Replace 'nomeCompleto' with the actual name attribute of the input field
+       // Replace 'numeroBI' with the actual name attribute of the input field
+      // document.getElementsByTagName('dataNascimento').value = ''; // Replace 'dataNascimento' with the actual name attribute of the input field
+      document.getElementsByTagName('phone').value = ''; // Replace 'telefone' with the actual name attribute of the input field
+      // document.getElementsByTagName('provincia').value = ''; // Replace 'provincia' with the actual name attribute of the input field
+      document.getElementsByTagName('address').value = ''; // Replace 'cidade' with the actual name attribute of the input field
+      document.getElementsByTagName('email').value = ''; // Replace 'email' with the actual name attribute of the input field
+      document.getElementsByTagName('password').value = ''; // Replace 'senha' with the actual name attribute of the input field
+
+
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        console.log("Email is already registered. Please log in.");
+
+        // Show error alert
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opah !',
+          text: 'Parece que seu email já se encontra em uso, faça login.',
+        });
+        document.getElementsByTagName('name').value = ''; // Replace 'nomeCompleto' with the actual name attribute of the input field
+         // Replace 'numeroBI' with the actual name attribute of the input field
+        // document.getElementsByTagName('dataNascimento').value = ''; // Replace 'dataNascimento' with the actual name attribute of the input field
+        document.getElementsByTagName('phone').value = ''; // Replace 'telefone' with the actual name attribute of the input field
+        // document.getElementsByTagName('provincia').value = ''; // Replace 'provincia' with the actual name attribute of the input field
+        document.getElementsByTagName('address').value = ''; // Replace 'cidade' with the actual name attribute of the input field
+        document.getElementsByTagName('email').value = ''; // Replace 'email' with the actual name attribute of the input field
+        document.getElementsByTagName('password').value = ''; // Replace 'senha' with the actual name attribute of the input field
+  
+      } else {
+        console.error(error);
+
+        // Show generic error alert
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: 'An error occurred during registration. Please try again later.',
+        });
+      }
     }
-  }, []);
-
-  const [backgroundImage, setBackgroundImage] = useState(0);
-  const images = ["a1.jpg", "a7.jpg", "a3.jpg"];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBackgroundImage((prevImage) => (prevImage + 1) % images.length);
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  const backgroundStyle = {
-    backgroundImage: `url(${process.env.PUBLIC_URL}/images/${images[backgroundImage]})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    filter: "brightness(35%)",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "70vh",
   };
 
-  const videoRef = useRef(null);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
-  }, []);
 
+
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    // Collect form data
+    const formData = {
+      name: e.target.elements.name.value,
+      phone: e.target.elements.phone.value,
+      city: e.target.elements.address.value,
+      email: e.target.elements.email.value,
+      password: e.target.elements.password.value,
+    };
+
+    // Call backend to register user
+    handleRegister(formData);
+  };
   return (
-    <div className="w-100 bg-light">
-      {/*  */}
-      {/* <Navba/> */}
-      <Header
-        style={{ marginBottom: "5rem" }}
-        nomee={nomee}
-        emaill={emaill}
-        cart={cart}
-      />
+    <>
+      
+      <div className="c  mx-auto body bg-white">
+        <div className="container ">
+          <div className="row ">
+            <div className="col-12  text-center "></div>
+            <div className="col-12  ">
+              <div className="text-center">
+              <div className="text-center mb-3 headc">
+                         
+                         <img src={logo2} style={{height:'6.5em'}} alt="" />
 
-      <div className="s">
-        <br />
-        <br />
-        <center className="container">
-          <h1 className="f-reg">
-            <b>Olá, crie uma conta no Reputação 360</b>
-          </h1>
-          <div className="container">
-            <span className="f-16 text-secondary container">
-              Com você logado conseguimos oferecer um serviço melhor e mais
-              personalizado.Navegue logado e ajude outros milhões de
-              consumidores.
-            </span>
-            <br />
-          </div>
-        </center>
-        <br />
-
-        <div className="container">
-          <div className="row">
-            <div className="col-12 col-sm-1 col-lg-2"></div>
-            <div className="col-12 col-sm-5 col-lg-4 my-3">
-              <div className="card-cadastro c-c-c bg-white p-4">
+                        
+                        </div>
+                <h2>
+                  <b>Olá, crie uma conta na <b className="text-danger">Ondjala</b></b>
+                </h2>
+                <p className="fw-light fw-400 fw-thin f-16">
+                 Garanta suas refeições com uma conta Ondjala Catering
+                </p>
+                <br />
+              </div>
+              <div className="container my-auto form-c form">
                 <center>
-                  <img src={userSignup} className="logo" alt="" />
-                </center>
-                <center>
-                  <h3>
-                    <b className="text-success">Sou consumidor</b>
-                  </h3>
+                   
+                    <form onSubmit={handleFormSubmit}>
+                      <div className="text-dark">
+                       
+                        <div className="row text-start">
+                          <div className="col-12 col-lg-6 my-2">
+                            <label htmlFor="" className="text-secondary f-12">
+                               Nome completo
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1"
+                              name="name"
+                              required
+                              placeholder="Digite seu nome e sobrenome"
+                            />
+                          </div>
+                          <br />
+                          <br />
+                          {/* <div className="col-12 col-lg-6 my-2">
+                            <label htmlFor="" className="text-secondary f-12">
+                              Nascimento
+                            </label>
+                            <input
+                            name="birthdate"
+                              type="date"
+                              className="form-control rounded-1"
+                            />
+                          </div> */}
+                          {/* <br />
+                          <div className="col-12 col-lg-6 my-2">
+                            <label htmlFor="" className="text-secondary f-12">
+                              Gênero
+                            </label>
+                            <select
+                              name=""
+                              id=""
+                              className="form-control rounded-1"
+                            >
+                              <option value="Masculino">Masculino</option>
+                              <option value="Feminino">Feminino</option>
+                              <option value="Outro">Outro</option>
+                            </select>
+                          </div>
+                          <br /> */}
 
-                  <p>
-                    Faça seu cadastro e publique reclamações para as empresas e
-                    ajude outros consumidores
-                  </p>
-                  <br />
-                  <NavLink
-                    to={"/pt/cadastro/consumidor"}
-                    className="btn mt-auto btn-outline-success w-100 rounded-1"
-                  >
-                    Fazer cadastro
-                  </NavLink>
+                          <br />
+                          <div className="col-12 my-2 col-lg-6">
+                            <label htmlFor="" className="text-secondary f-12">
+                               Telefone
+                            </label>
+                            <input
+                              type="tel"
+                              className="form-control rounded-1"
+                              name="phone"
+
+                              placeholder="Digite seu telefone atual"
+                            />
+                          </div>
+
+                          <br />
+                          {/* <div className="col-12 my-2 col-lg-6">
+                            <label htmlFor="" className="text-secondary f-12">
+                               Província
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1"
+                              name="province"
+                              placeholder="Digite sua provincia de residência"
+                            />
+                          </div>
+                          <br /> */}
+                          <div className="col-12 my-2">
+                            <label htmlFor="" className="text-secondary f-12">
+                               Endereço
+                            </label>
+                            <input
+                              type="text"
+                              name="address"
+                              required
+                              className="form-control rounded-1"
+                              placeholder="Digite sua cidade atual"
+                            />
+                          </div>
+                          <br />
+
+                          <br />
+                          <div className="titul mt-3">
+                            <div className="d-flex text-danger gap-2">
+                              <i className="bi bi-shield-lock-fill"></i>
+                              <b>Dados de acesso</b>
+                            </div>
+                          </div>
+
+                          <br />
+                          <div className="col-12 my-2 col-lg-6">
+                            <label htmlFor="" className="text-secondary f-12">
+                               E-mail
+                            </label>
+                            <input
+                            required
+                              type="email"
+                              name="email"
+                              className="form-control rounded-1"
+                              placeholder="Digite seu melhor email"
+                            />
+                          </div>
+
+                          <div className="col-12 my-2 col-lg-6">
+                            <label htmlFor="" className="text-secondary f-12">
+                               Crie uma senha
+                            </label>
+                            <input
+                              type="password"
+                              required
+                              name="password"
+                              className="form-control rounded-1"
+                              placeholder="Crie uma senha (min 8 caracteres)"
+                              minLength={8}
+                            />
+                          </div>
+                          <br />
+                          <br />
+                        </div>
+                      </div>
+                      <br />
+                      <br />
+                      <button className="d-flex text-white w-100  btn btn-danger rounded-pill justify-content-center rounded-1">
+                        <span>Cadastrar</span>
+                      </button>
+                    </form>
+                  
                 </center>
               </div>
-            </div>
-            <div className="col-12 col-sm-5 col-lg-4 my-3">
-              <div className="card-cadastro c-c-e bg-white p-4">
-                <center>
-                  <img src={company} className="logo" alt="" />
-                </center>
-                <center>
-                  <h3>
-                    <b className="text-primary">Sou empresa</b>
-                  </h3>
-
-                  <p>
-                    Cadastre sua empresa no Reputação 360. Responda suas
-                    reclamações e trabalhe sua reputação, ou reclame de outras
-                    empresas.
-                  </p>
-                  <br />
-                  <NavLink
-                    to={"/pt/cadastro/empresa"}
-                    className="btn btn-primary w-100 rounded-1"
-                  >
-                    Conheça as soluções
-                  </NavLink>
-                </center>
+              <br />
+              <br />
+              <div className="text-center">
+                <span>
+                  Já possui uma conta ? <a href="/pt/login" className="link">peça sua comida</a>{" "}
+                </span>
               </div>
             </div>
-
-            <div className="col-12 col-sm-1  col-lg-2"></div>
           </div>
         </div>
-
         <br />
-
-        <div className="publicidade text-white bg-secondary my-3 py-5 text-center">
-          <br />
-          <h5>Publicidade</h5>
-
-          <br />
-        </div>
-
         <br />
-
         <br />
-
-        <Footer />
       </div>
-    </div>
+      {/* <Footer /> */}
+    </>
   );
 };
 

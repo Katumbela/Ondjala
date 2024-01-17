@@ -109,10 +109,10 @@ export default function Body() {
         <br />
         <br />
       </div>
-      <div className=" text-center bannn py-5">
-        <div className="my-3">
+      <div className=" text-center w-100 bannn py-5">
+        <div className="my-3 container">
           <h1>ONDJALA, O MELHOR DA BANDA</h1>
-          <p className="text-white">
+          <p className="text-white mx-auto w-75">
             Entrega de compras, exatamente como você deseja. Compre em casa e
             encha seu carrinho com produtos frescos, entradas congeladas,
             delícias deliciosas e muito mais. Comprar mantimentos

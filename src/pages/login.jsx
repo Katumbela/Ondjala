@@ -4,7 +4,7 @@ import "firebase/compat/auth";
 
 import { UserContext } from "./userContext";
 import "../css/login.css";
-import logo from "../imgs/iconn.png";
+import logo from "../imgs/iconn2.png";
 import ScrollToTopLink from "../components/scrollTopLink";
 import Swal from "sweetalert2";
 import { db } from "./firebase";
@@ -204,15 +204,16 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
               </div>
               <center>
                 
-                <img src={logo} style={{height:'3em'}} alt="" />
+                <img src={logo} style={{height:'7em'}} alt="" />
                 <br />
                 <br />
                 {user ? (
                   <div>
-                    <p className="text-primary">
+                    <p className="text-danger">
                       Você está logado como <b></b> <br />
                       <span className="text-secondary">
-                        Email: {user.email}
+                         {user.name ? user.name?.split(' ')[0] :  user.nome?.split(' ')[0]}
+                      
                       </span>
                     </p>
 
@@ -280,7 +281,7 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
             </div>
             <br />
             <div className="pb-2 text-center">
-                    <b className="text-dark">Não tem uma conta ? <a href="#" className="link">Crie uma conta</a></b>
+                    <b className="text-dark">Não tem uma conta ? <a href="/pt/cadastro" className="link">Crie uma conta</a></b>
                   </div>
             {/* <div className="text-center">
               <span>

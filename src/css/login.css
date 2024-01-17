@@ -67,9 +67,6 @@
   }
 }
 
-.body {
-  background-color: #cbe4f952;
-}
 
 .luanda div {
   display: none;
@@ -124,4 +121,32 @@
 
 .google-btn:active {
   background: #1669F2;
+}
+
+
+@media (min-width: 690px) {
+  .pesquisa {
+    width: 50%!important;
+  }
+.body {
+  margin-top: 5rem;
+}
+}
+
+.swal2-confirm {
+  background: red!important;
+}
+
+.swal2-title {
+  color: red;
+}
+
+.logo-div {
+  background: white;
+  width: 7.5em;
+  height: 7.5em;
+  border-radius: 90px!important;
+  justify-content: center;
+  place-content: center;
+  display: grid;
 }

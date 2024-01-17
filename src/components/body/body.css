@@ -22,10 +22,20 @@
 }
 
 .results {
+    border: .5px solid #d9d9d9;
     flex-direction: column!important;
-    z-index: 999999!important;
+    z-index: 999999999999999999999!important;
     overflow-y: auto;
+    justify-content: start!important;
+    align-items: start;
+    align-content: start;
+    text-align: start;
     margin-top: 0!important;
     border-radius: 10px!important;
     box-shadow: 0!important;
+}
+
+.hero {
+    z-index: 999999999999999999999!important;
+  
 }

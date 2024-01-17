@@ -4,12 +4,66 @@ import firebase from "firebase/compat/app";
 import dadosEmpresas from "../../model/empresas";
 import ScrollToTopLink from "../scrollTopLink";
 import axios from "axios";
+import logo2 from "../../imgs/iconn2.png";
+import { db } from "../../pages/firebase";
 
 export default function Hero() {
-  const [user, setUser] = useState(null);
-
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // verificar login do usuario
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          // Consultar o Firestore para obter o documento do usuário com base no e-mail
+          const querySnapshot = await db
+            .collection("cliente")
+            .where("email", "==", user.email)
+            .get();
+
+          if (!querySnapshot.empty) {
+            // Se houver um documento correspondente, obter os dados
+            const userData = {
+              name: user.displayName
+                ? user.displayName
+                : querySnapshot.docs[0].get("name"),
+              email: user.email,
+              pictureUrl: user.photoURL,
+              uid: user.uid,
+              tel: user.phoneNumber
+                ? user.phoneNumber
+                : querySnapshot.docs[0].get("phone"),
+              // Adicione outros campos conforme necessário
+              bi: querySnapshot.docs[0].get("bi"),
+              city: querySnapshot.docs[0].get("city"),
+              // Adicione outros campos conforme necessário
+            };
+
+            // Atualizar o estado do usuário com os dados
+            setUser(userData);
+
+            // Salvar dados no localStorage
+            localStorage.setItem("users", JSON.stringify(userData));
+          } else {
+            console.warn(
+              "Documento não encontrado no Firestore para o e-mail do usuário."
+            );
+          }
+        } catch (error) {
+          console.error("Erro ao buscar dados do Firestore:", error);
+        }
+      } else {
+        // Se o usuário não estiver logado, defina o estado do usuário como null
+        setUser(null);
+      }
+    });
+
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,21 +79,6 @@ export default function Hero() {
   }, [prevScrollPos]);
 
   const [showSuggestions, setShowSuggestions] = useState(false);
-
-  // useEffect(() => {
-  //   const handleOverflow = () => {
-  //     // Adicione a classe para ocultar a rolagem vertical do corpo
-  //     document.body.style.overflowY = showSuggestions ? "hidden" : "auto";
-  //   };
-
-  //   // Adicione um ouvinte de evento quando showSuggestions muda
-  //   handleOverflow();
-
-  //   // Limpe o ouvinte de evento ao desmontar o componente
-  //   return () => {
-  //     document.body.style.overflowY = "auto";
-  //   };
-  // }, [showSuggestions]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -98,34 +137,51 @@ export default function Hero() {
       console.error("Erro ao buscar sugestões de autocomplete:", error);
     }
   };
-  
 
   return (
     <>
       <div className="hero">
         <div className="py-3 d-flex container justify-content-between text-center">
           <div></div>
-          <h2>
-            <b className="f-reg text-white title">ONDJALA</b>
-          </h2>
-          <div className="d-flex gap-2">
-            <ScrollToTopLink
-              to={"/pt/login"}
-              className="btn btn-sm login btn-white px-3 f-reg rounded-pill"
-            >
-              Login
-            </ScrollToTopLink>
-            <button className="btn btn-sm cadastro btn-danger px-3 rounded-pill">
-              Cadastro
-            </button>
-          </div>
+          {user != null ? (
+            <>
+            <div className="d-flex gap-2 logged">
+                
+                <ScrollToTopLink
+                  to={"/pt/cadastro"}
+                  className="btn btn-sm login btn-white px-3 py- rounded-pill"
+                >
+                <i className="bi bi-person-circle me-1"></i>  {user.name}
+                </ScrollToTopLink>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="d-flex gap-2">
+                <ScrollToTopLink
+                  to={"/pt/login"}
+                  className="btn btn-sm login btn-white px-3 f-reg rounded-pill"
+                >
+                  Login
+                </ScrollToTopLink>
+                <ScrollToTopLink
+                  to={"/pt/cadastro"}
+                  className="btn btn-sm cadastro btn-danger px-3 py- rounded-pill"
+                >
+                  Cadastro
+                </ScrollToTopLink>
+              </div>
+            </>
+          )}
         </div>
         {/* A parte do input */}
+
         <div className=" container datas">
           <div className="my-auto text-center">
-            <h1>
-              <b className="f-reg text-white title-2">ONDJALA</b>
-            </h1>
+            <div className="logo-div mx-auto">
+              <img style={{ height: "8em" }} src={logo2} alt="" />
+            </div>
+
             <h3 className="text-white f-reg">
               <b>Peça a comida que lhe apetece agora</b>
             </h3>
@@ -144,9 +200,15 @@ export default function Hero() {
               <i className="bi bi-arrow-right-short "></i>
             </div>
             {showSuggestions && searchResults.length >= 1 ? (
-              <div className="results pesquisa input-search bg-white p-2 text-start f-14 text-decoration-none text-danger">
+              <div className="results pesquisa text-start input-search bg-white py-2 px-3 f-14 ">
                 {searchResults.map((endereco, index) => (
-                  <ScrollToTopLink to={`/pt/menu/${encodeURIComponent(endereco.properties.formatted)}`} key={index} className="result-item">
+                  <ScrollToTopLink
+                    to={`/pt/menu/${encodeURIComponent(
+                      endereco.properties.formatted
+                    )}`}
+                    key={index}
+                    className="result-item link text-decoration-none text-start"
+                  >
                     <p>{endereco.properties.formatted}</p>
                     {/* Adicione qualquer outra informação que você deseje exibir */}
                   </ScrollToTopLink>

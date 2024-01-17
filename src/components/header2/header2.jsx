@@ -208,19 +208,40 @@ const Header2 = (props) => {
   return (
     <>
       <div className="py-3 d-flex container justify-content-between text-center">
-        <img src={icone} className="icone2 my-auto" alt="" />
+       <ScrollToTopLink to={'/pt'}
+       >
+         <img src={icone} className="icone2 my-auto" alt="" />
 
-        <div className="d-flex gap-2">
-          <ScrollToTopLink
-            to={"/pt/login"}
-            className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
-          >
-            Login
-          </ScrollToTopLink>
-          <button className="btn btn-sm cadastro2  px-3 rounded-pill">
-            Cadastro
-          </button>
-        </div>
+       </ScrollToTopLink>
+        {user != null ? (
+          <>
+          <div className="d-flex gap-2">
+            <ScrollToTopLink
+              to={"/pt/perfil"}
+              className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
+            >
+           <span className="my-auto">
+           <i className="bi bi-person-circle me-1"></i>  {user?.name.split(' ')[0]}  {user?.name.split(' ')[1]}
+           </span>
+            </ScrollToTopLink>
+          
+          </div></>
+        ) : (
+          <div className="d-flex gap-2">
+            <ScrollToTopLink
+              to={"/pt/login"}
+              className="btn btn-sm login2 btn-danger px-3 f-reg rounded-pill"
+            >
+              Login
+            </ScrollToTopLink>
+            <ScrollToTopLink
+              to={"/pt/cadastro"}
+              className="btn btn-sm cadastro2  px-3 rounded-pill"
+            >
+              Cadastro
+            </ScrollToTopLink>
+          </div>
+        )}
       </div>
 
       <div className="head-menu container">
