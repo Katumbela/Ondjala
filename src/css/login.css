@@ -135,6 +135,11 @@
 
 .swal2-confirm {
   background: red!important;
+  
+}
+
+button {
+  box-shadow: none!important;
 }
 
 .swal2-title {

@@ -100,7 +100,7 @@ const Perfil = ({ emaill, nomee, cart, add, remove }) => {
       .then(() => {
         setUser(null);
         localStorage.removeItem("users"); // Remover dados do armazenamento local
-        // window.location.href = "/pt"; // Redirecionar para a página de login
+        window.location.href = "/pt"; // Redirecionar para a página de login
       })
       .catch((error) => {
         console.log(error);

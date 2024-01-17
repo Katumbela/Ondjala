@@ -222,6 +222,12 @@ const Login = ({ setNomee, setEmaill, cart, nomee, emaill }) => {
               }
             })
             .catch((fetchError) => {
+                 // Usuário registrado com e-mail e senha, mostre a mensagem de erro padrão
+                 Swal.fire({
+                  icon: "error",
+                  title: "Ops!",
+                  text: "Email ou senha incorreta, tente novamente!",
+                });
               console.error(fetchError);
             });
         } else {
